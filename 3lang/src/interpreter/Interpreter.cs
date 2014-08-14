@@ -33,7 +33,7 @@ namespace lang.interpreter
 		public void Run()
 		{
 			this.lexer.Tokenize ();
-			Tree ParseTree = this.parser.Parse (this.lexer.Tokens);
+			//Program program = this.parser.Parse (this.lexer.Tokens);
 
 			this.lexer.PrintToken ();
 		}

@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/interpreter/Interpreter.cs">
     <Files>
-      <File FileName="3lang/src/Program.cs" Line="12" Column="11" />
-      <File FileName="3lang/src/lexer/Lexer.cs" Line="9" Column="29" />
+      <File FileName="3lang/src/Program.cs" Line="15" Column="13" />
+      <File FileName="3lang/src/parser/Parser.cs" Line="5" Column="22" />
+      <File FileName="3lang/src/structure/Tree.cs" Line="11" Column="20" />
+      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="37" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

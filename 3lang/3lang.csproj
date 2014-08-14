@@ -46,6 +46,7 @@
     <Compile Include="src\interpreter\Interpreter.cs" />
     <Compile Include="src\parser\Parser.cs" />
     <Compile Include="src\structure\Tree.cs" />
+    <Compile Include="src\parser\NonTerminal.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -54,5 +55,8 @@
     <Folder Include="src\interpreter\" />
     <Folder Include="src\parser\" />
     <Folder Include="src\structure\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EmptyTextFile.txt" />
   </ItemGroup>
 </Project>

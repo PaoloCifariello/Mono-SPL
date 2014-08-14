@@ -1,0 +1,46 @@
+PROGRAM:
+	STATEMENTS
+
+STATEMENTS:
+	STATEMENT STATEMENTS
+	STATEMENT
+
+STATEMENT:
+	if CONDITION { STATEMENTS }
+	if CONDITION { STATEMENTS } else { STATEMENTS }
+	while CONDITION { STATEMENTS }
+	ASSIGNMENT
+		
+CONDITION:
+	(EXPRESSION)
+
+ASSIGNMENT:
+	var $identifier;
+	var $identifier = EXPRESSION;
+	$identifier = EXPRESSION;
+	
+EXPRESSION:
+	$integer
+	$integer + $integer
+	$integer * $integer
+	$integer - $integer
+	$integer / $integer
+
+	$bool
+	$bool && $bool
+	$bool || $bool	
+	$integer = $integer
+	$integer < $integer
+	$integer <= $integer
+	$integer >= $integer
+	$string = $string
+	$string > $string
+	$string < $string
+	
+	$string
+	$string + $string
+	
+$integer -> 0,1,2,3,4
+$identifier -> a12, $$, $__, tmp, A1__$
+$bool -> true, false
+$string -> "I am a string", ";", ""

@@ -11,7 +11,7 @@ namespace lang
 			//	return;
 
 			//lexer.Lexer l = lexer.Lexer.FromFile (args [0]);
-			Interpreter i = new Interpreter ("var asd=0231234;function a () { return 3 ; };");
+			Interpreter i = new Interpreter ("if(3=4){var a}");
 			i.Run ();
 		}
 	}

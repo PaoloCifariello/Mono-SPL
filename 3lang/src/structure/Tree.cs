@@ -1,5 +1,6 @@
 using System;
 using lang.lexer;
+using System.Collections.Generic;
 
 namespace lang.structure
 {
@@ -28,23 +29,8 @@ namespace lang.structure
 
 	public class Node
 	{
-		private Node left = null;
-		private Node right = null;
+		private List<Node> children;
 		private Token value;
-
-		public Node LeftNode
-		{
-			get {
-				return this.left;
-			}
-		}
-		
-		public Node RightNode
-		{
-			get {
-				return this.right;
-			}
-		}
 
 		public Token Value
 		{
@@ -58,10 +44,17 @@ namespace lang.structure
 			this.value = value;
 		}
 
-		public Node(Token value, Node left, Node right) : this(value)
+		public Node(Token value, Node[] children) : this(value)
 		{
-			this.left = left;
-			this.right = right;
+			this.children.AddRange (children);
+		}
+
+		public Node GetChild(int index)
+		{
+			if (index < this.children.Count)
+				return this.children [index];
+			else
+				return null;
 		}
 	}
 }
