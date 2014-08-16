@@ -16,8 +16,8 @@ namespace lang.lexer
 		public void InitializeMatchList()
 		{
 			this.KeywordMatcher = new MatchKey[] {
-				new MatchKey(TokenType.VOID, "void"),
-				new MatchKey(TokenType.INT, "int"),
+				//new MatchKey(TokenType.VOID, "void"),
+				//new MatchKey(TokenType.INT, "int"),
 				new MatchKey(TokenType.FUNCTION, "function"),
 				new MatchKey(TokenType.IF, "if"),
 				new MatchKey(TokenType.DECLARE, "var"),
@@ -27,7 +27,7 @@ namespace lang.lexer
 				new MatchKey(TokenType.RETURN, "return"),
 				new MatchKey(TokenType.TRUE, "true"),
 				new MatchKey(TokenType.FALSE, "false"),
-				new MatchKey(TokenType.BOOLEAN, "bool"),
+				//new MatchKey(TokenType.BOOLEAN, "bool"),
 				new MatchKey(TokenType.STRING, "string"),
 				new MatchKey(TokenType.NEW, "new"),
 				new MatchKey(TokenType.NULL, "null")
@@ -39,23 +39,27 @@ namespace lang.lexer
 				new MatchKey(TokenType.TIMES, "*"),
 				new MatchKey(TokenType.DOT, "."),
 				new MatchKey(TokenType.COLON, ":"),
+				new MatchKey(TokenType.QUOTE, "\""),
 				new MatchKey(TokenType.PERCENT, "%"),
-				new MatchKey(TokenType.PIPE, "|"),
-				new MatchKey(TokenType.EXCLAMATION, "!"),
+				new MatchKey(TokenType.OR, "||"),
+				new MatchKey(TokenType.DISEQUAL, "!="),
 				new MatchKey(TokenType.QUESTION, "?"),
 				new MatchKey(TokenType.POUND, "#"),
-				new MatchKey(TokenType.AMPERSAND, "&"),
+				new MatchKey(TokenType.AND, "&&"),
 				new MatchKey(TokenType.SEMI, ";"),
 				new MatchKey(TokenType.COMMA, ","),
 				new MatchKey(TokenType.L_PAREN, "("),
 				new MatchKey(TokenType.R_PAREN, ")"),
-				new MatchKey(TokenType.L_ANG, "<"),
-				new MatchKey(TokenType.R_ANG, ">"),
+				new MatchKey(TokenType.LESS_OR_EQUAL, "<="),
+				new MatchKey(TokenType.GREATER_OR_EQUAL, ">="),
+				new MatchKey(TokenType.LESS, "<"),
+				new MatchKey(TokenType.GREATER, ">"),
 				new MatchKey(TokenType.L_BRACE, "{"),
 				new MatchKey(TokenType.R_BRACE, "}"),
 				new MatchKey(TokenType.L_BRACKET, "["),
 				new MatchKey(TokenType.R_BRACKET, "]"),
-				new MatchKey(TokenType.EQUALS, "="),
+				new MatchKey(TokenType.EQUAL, "=="),
+				new MatchKey(TokenType.ASSIGN, "="),
 				new MatchKey(TokenType.LINE_END, "\0")
 			};
 
@@ -63,22 +67,6 @@ namespace lang.lexer
 
 		public Token Match(string line)
 		{
-			// Try to match Integer
-			if (line [0] >= '0' && line [0] <= '9') {
-				int idx = this.ParseInteger (line);
-
-				if (idx == -1)
-					return new Token (
-						TokenType.INTEGER,
-						line.Substring (0)
-					);
-				else
-					return new Token (
-						TokenType.INTEGER,
-						line.Substring (0, idx)
-					);
-			}
-
 			// Try to match Keywords
 			for (int i = 0; i < this.KeywordMatcher.Length; i++) {
 				if (this.KeywordMatcher [i].Match (line)) {
@@ -102,9 +90,25 @@ namespace lang.lexer
 				}
 			}
 
+			// Try to match Integer
+			if (line [0] >= '0' && line [0] <= '9') {
+				int idx = Matcher.ParseInteger (line);
+
+				if (idx == -1)
+					return new Token (
+						TokenType.INTEGER,
+						line.Substring (0)
+						);
+				else
+					return new Token (
+						TokenType.INTEGER,
+						line.Substring (0, idx)
+						);
+			}
+
 			// Try to match alphanumeric
-			if ((line [0] >= 'a' && line [0] <= 'z') || (line [0] >= 'A' && line [0] <= 'Z')) {
-				int idx = this.ParseAlphanumeric (line);
+			if (Matcher.isAlphanumeric(line[0])) {
+				int idx = Matcher.ParseAlphanumeric (line);
 
 				if (idx == -1)
 					return new Token (
@@ -121,30 +125,30 @@ namespace lang.lexer
 			return null;
 		}
 
-		private int ParseInteger(string line)
+		public static int ParseInteger(string line)
 		{
 			for (int position = 1; position < line.Length; position++) 
-				if (!this.isNumber (line [position]))
+				if (!Matcher.isNumber (line [position]))
 					return position;
 
 			return -1;
 		}
 
-		private int ParseAlphanumeric(string line) 
+		public static int ParseAlphanumeric(string line) 
 		{
 			for (int position = 1; position < line.Length; position++)
-				if (!this.isAlphanumeric (line [position]))
+				if (!Matcher.isAlphanumeric (line [position]))
 					return position;
 
 			return -1;
 		}
 
-		private bool isNumber(char c)
+		public static bool isNumber(char c)
 		{
 			return (c >= '0' && c <= '9');
 		}
 
-		private bool isAlphanumeric(char c)
+		public static bool isAlphanumeric(char c)
 		{
 			if (isNumber (c))
 				return true;
@@ -152,6 +156,10 @@ namespace lang.lexer
 			return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '$') || (c == '_'));
 		}
 
+		public static bool isValidInitialIdentifier (char c)
+		{
+			return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '$') || (c == '_'));
+		}
 	}
 
 	public class MatchKey

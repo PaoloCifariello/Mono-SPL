@@ -7,11 +7,7 @@ namespace lang
 	{
 		public static void Main (string[] args)
 		{
-			//if (args.Length != 1)
-			//	return;
-
-			//lexer.Lexer l = lexer.Lexer.FromFile (args [0]);
-			Interpreter i = new Interpreter ("if(3=4){var a}");
+			Interpreter i = new Interpreter ("var a = 10;\nwhile(a >= 0) { a = a - 1;}\n");
 			i.Run ();
 		}
 	}

@@ -33,9 +33,14 @@ namespace lang.interpreter
 		public void Run()
 		{
 			this.lexer.Tokenize ();
-			//Program program = this.parser.Parse (this.lexer.Tokens);
+			//this.lexer.PrintToken ();
 
-			this.lexer.PrintToken ();
+			Program program = this.parser.Parse (this.lexer.Tokens);
+			if (program == null)
+				Console.WriteLine ("Parsing error");
+			else 
+				program.Print ();
+
 		}
 	}
 }

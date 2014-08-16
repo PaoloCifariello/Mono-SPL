@@ -8,7 +8,9 @@ namespace lang.parser
 	{
 		private Statements statements;
 
-		public Program () {}
+		public Program () {
+			this.statements = new Statements ();
+		}
 
 		public Program (Statements statements)
 		{
@@ -25,6 +27,11 @@ namespace lang.parser
 		public void AddStatement(Statement stat)
 		{
 			this.statements.AddStatement (stat);
+		}
+
+		public void Print ()
+		{
+			this.statements.Print ();
 		}
 	}
 	
@@ -61,6 +68,15 @@ namespace lang.parser
 			else
 				return null;
 		}
+
+		public void Print()
+		{
+			for (int i = 0; i < this.statemets.Count; i++) {
+				Console.Write ("Statement " + i + ": ");
+				this.statemets [i].Print ();
+		
+			}
+		}
 	}
 	
 	public class Statement
@@ -94,6 +110,11 @@ namespace lang.parser
 		{
 			this.statements2 = stat2;
 		}
+
+		public void Print()
+		{
+			Console.WriteLine (this.type);
+		}
 	}
 	
 	public class Condition
@@ -126,15 +147,30 @@ namespace lang.parser
 	{
 		private ExpressionType type;
 		private Token[] tokens;
+		private Expression exp1;
+		private Expression exp2;
 
 		public Expression (ExpressionType type)
 		{
 			this.type = type;
 		}
+		
+		public Expression(ExpressionType type, Token token) : this(type)
+		{
+			this.tokens = new Token[1] {
+				token
+			};
+		}
 
 		public Expression(ExpressionType type, Token[] tokens) : this(type)
 		{
 			this.tokens = tokens;
+		}
+
+		public Expression(ExpressionType type, Expression e1, Expression e2) :this(type)
+		{
+			this.exp1 = e1;
+			this.exp2 = e2;
 		}
 	}
 
@@ -147,17 +183,22 @@ namespace lang.parser
 
 	public enum ExpressionType {
 		// Integer
+		IDENTIFIER,
+		BOOL,
+		STRING,
 		INTEGER,
+		// Operations
 		PLUS,
 		MINUS,
 		TIMES,
-		// Boolean
-		BOOL,
 		AND,
 		OR,
-		// String
-		STRING,
-		CONCAT
+		DISEQUAL,
+		EQUAL,
+		LESS,
+		GREATER,
+		LESS_OR_EQUAL,
+		GREATER_OR_EQUAL
 	}
 }
 

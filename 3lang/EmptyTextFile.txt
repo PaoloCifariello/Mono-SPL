@@ -20,25 +20,27 @@ ASSIGNMENT:
 	$identifier = EXPRESSION;
 	
 EXPRESSION:
+	$identifier
 	$integer
-	$integer + $integer
-	$integer * $integer
-	$integer - $integer
-	$integer / $integer
-
 	$bool
-	$bool && $bool
-	$bool || $bool	
-	$integer = $integer
-	$integer < $integer
-	$integer <= $integer
-	$integer >= $integer
-	$string = $string
-	$string > $string
-	$string < $string
-	
 	$string
-	$string + $string
+	
+	(EXPRESSION)
+	
+	EXPRESSION + EXPRESSION
+	EXPRESSION - EXPRESSION
+	EXPRESSION * EXPRESSION
+	EXPRESSION / EXPRESSION
+
+	EXPRESSION && EXPRESSION
+	EXPRESSION || EXPRESSION	
+	EXPRESSION != EXPRESSION
+	EXPRESSION = EXPRESSION
+	EXPRESSION < EXPRESSION
+	EXPRESSION > EXPRESSION
+	EXPRESSION <= EXPRESSION
+	EXPRESSION >= EXPRESSION
+
 	
 $integer -> 0,1,2,3,4
 $identifier -> a12, $$, $__, tmp, A1__$

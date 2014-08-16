@@ -20,31 +20,35 @@ namespace lang.lexer
 				case TokenType.DOT:
 				case TokenType.COLON:
 				case TokenType.PERCENT:
-				case TokenType.PIPE:
-				case TokenType.EXCLAMATION:
 				case TokenType.QUESTION:
 				case TokenType.POUND:
-				case TokenType.AMPERSAND:
 				case TokenType.SEMI:
 				case TokenType.COMMA:
 				case TokenType.L_PAREN:
 				case TokenType.R_PAREN:
-				case TokenType.L_ANG:
-				case TokenType.R_ANG:
+				case TokenType.LESS:
+				case TokenType.GREATER:
 				case TokenType.L_BRACE:
 				case TokenType.R_BRACE:
 				case TokenType.L_BRACKET:
 				case TokenType.R_BRACKET:
-				case TokenType.EQUALS:
+				case TokenType.ASSIGN:
+				case TokenType.QUOTE:
 					return 1;
+				case TokenType.EQUAL:
+				case TokenType.LESS_OR_EQUAL:
+				case TokenType.GREATER_OR_EQUAL:
 				case TokenType.IF:
+				case TokenType.OR:
+				case TokenType.DISEQUAL:
+				case TokenType.AND:
 					return 2;
-				case TokenType.INT:
+				//case TokenType.INT:
 				case TokenType.DECLARE:
 				case TokenType.FOR:
 				case TokenType.NEW:
 					return 3;
-				case TokenType.VOID:
+				//case TokenType.VOID:
 				case TokenType.ELSE:
 				case TokenType.TRUE:
 				case TokenType.NULL:
@@ -55,8 +59,8 @@ namespace lang.lexer
 				case TokenType.RETURN:
 				case TokenType.STRING:
 					return 6;
-				case TokenType.BOOLEAN:
-					return 7;
+				//case TokenType.BOOLEAN:
+					//return 7;
 				case TokenType.FUNCTION:
 					return 8;
 				}
@@ -102,10 +106,9 @@ namespace lang.lexer
 		INTEGER,
 		DOUBLE,
 		ALPHANUMERIC,
+		STRING,
 
 		// Keywords
-		VOID,			// void
-		INT,			// int
 		FUNCTION,		// function
 		IF,				// if
 		DECLARE,		// var
@@ -115,8 +118,6 @@ namespace lang.lexer
 		RETURN,			// return
 		TRUE,			// true
 		FALSE,			// false
-		BOOLEAN,		// bool
-		STRING,			// string
 		NEW,			// new
 		NULL,			// null
 
@@ -124,25 +125,29 @@ namespace lang.lexer
 		PLUS,			// +
 		MINUS,			// -
 		TIMES,			// *
+		QUOTE,			// "
 		DOT,			// .
 		COLON,			// :
 		PERCENT,		// %
-		PIPE,			// |
-		EXCLAMATION,	// !
+		DISEQUAL,		// !=
 		QUESTION,		// ?
 		POUND,			// #
-		AMPERSAND,		// &
+		AND,			// &&
+		OR,				// ||
+		LESS_OR_EQUAL,	// <=
+		GREATER_OR_EQUAL,// >=
+		LESS,			// <
+		GREATER,		// >
 		SEMI,			// ;
 		COMMA,			// ,
 		L_PAREN,		// (
 		R_PAREN,		// )
-		L_ANG,			// <
-		R_ANG,			// >
 		L_BRACE,		// {
 		R_BRACE,		// }
 		L_BRACKET,		// [
 		R_BRACKET,		// ]
-		EQUALS,			// =
+		ASSIGN,			// =
+		EQUAL,			// ==
 		LINE_END		// \n
 	};
 }

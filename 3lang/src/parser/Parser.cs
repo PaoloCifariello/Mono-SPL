@@ -59,6 +59,15 @@ namespace lang.parser
 		private Statement ParseStatement()
 		{
 			TokenType type = this.CurrentType;
+			if (type == TokenType.LINE_END) {
+				this.Pop ();
+
+				try {
+					type = this.CurrentType;
+				} catch (ParsingError) {
+					return null;
+				}
+			}
 
 			// If then, if then else
 			if (type == TokenType.IF) {
@@ -129,17 +138,12 @@ namespace lang.parser
 			this.Pop ();
 			Expression exp = this.ParseExpression ();
 
-			if (exp == null || this.CurrentType != TokenType.L_PAREN)
+			if (exp == null || this.CurrentType != TokenType.R_PAREN)
 				return null;
 
 			this.Pop ();
 
 			return new Condition (exp);
-		}
-
-		private Expression ParseExpression ()
-		{
-			throw new NotImplementedException ();
 		}
 
 		private Assignment ParseAssignment() 
@@ -152,39 +156,139 @@ namespace lang.parser
 
 				string word = this.Pop ().Value;
 
-				if (this.CurrentType == TokenType.COLON) {
+				if (this.CurrentType == TokenType.SEMI) {
+					this.Pop ();
 					return new Assignment (word);
-				} else if (this.CurrentType == TokenType.EQUALS) {
+				} else if (this.CurrentType == TokenType.ASSIGN) {
 					this.Pop ();
 					Expression exp = this.ParseExpression ();
 
-					if (exp == null || this.CurrentType != TokenType.COLON)
+					if (exp == null || this.CurrentType != TokenType.SEMI)
 						return null;
 
+					this.Pop ();
 					return new Assignment (word, exp);
 				} else
 					return null;
 			} else if (this.CurrentType == TokenType.ALPHANUMERIC) {
 				string word = this.Pop ().Value;
 
-				if (this.CurrentType != TokenType.EQUALS)
+				if (this.CurrentType != TokenType.ASSIGN)
 					return null;
 
 				this.Pop ();
 
 				Expression exp = this.ParseExpression ();
 
-				if (exp == null || this.CurrentType != TokenType.COLON)
+				if (exp == null || this.CurrentType != TokenType.SEMI)
 					return null;
 
+				this.Pop ();
 				return new Assignment (word, exp);
 			} else
 				return null;
 		}
+		
+		private Expression ParseExpression ()
+		{
+			Expression exp1;
+			// Case (EXPRESSION)
+			if (this.CurrentType == TokenType.L_PAREN) {
+				this.Pop ();
+				exp1 = this.ParseExpression ();
+				if (this.CurrentType != TokenType.R_PAREN)
+					return null;
+
+				this.Pop ();
+				// Identifier case
+			} else if (this.CurrentType == TokenType.ALPHANUMERIC) {
+				Token id = this.Pop ();
+				char initial = id.Value [0];
+
+				if (!Matcher.isValidInitialIdentifier (initial))
+					return null;
+				else
+					exp1 = new Expression (ExpressionType.IDENTIFIER, id);
+				// Integer case
+			} else if (this.CurrentType == TokenType.INTEGER) {
+				exp1 = new Expression (ExpressionType.INTEGER, this.Pop ());
+				// Boolean case
+			} else if (this.CurrentType == TokenType.TRUE || this.CurrentType == TokenType.FALSE) {
+				exp1 = new Expression (ExpressionType.BOOL, this.Pop ());
+				// String case
+			} else if (this.CurrentType == TokenType.QUOTE) {
+				this.Pop ();
+
+				if (this.CurrentType != TokenType.ALPHANUMERIC)
+					return null;
+
+				Token str = this.Pop ();
+				if (this.CurrentType != TokenType.QUOTE)
+					return null;
+
+				this.Pop ();
+				exp1 = new Expression (ExpressionType.STRING, str);
+				// Expression combination case
+			} else {
+				return null;
+			}
+
+			if (Parser.IsExpressionOperator (this.CurrentType)) {
+				ExpressionType type = Parser.GetExpressionOperator (this.CurrentType);
+				this.Pop ();
+				Expression exp2 = this.ParseExpression ();
+				if (exp2 == null)
+					return null;
+				else
+					return new Expression (type, exp1, exp2);
+			} else 
+				return exp1;
+		}
+
+		public static ExpressionType GetExpressionOperator(TokenType type)
+		{
+			switch (type)
+			{
+			case (TokenType.PLUS):
+				return ExpressionType.PLUS;
+			case (TokenType.MINUS):
+				return ExpressionType.MINUS;
+			case (TokenType.TIMES):
+				return ExpressionType.TIMES;
+			case (TokenType.AND):
+				return ExpressionType.AND;
+			case (TokenType.OR):
+				return ExpressionType.OR;
+			case (TokenType.DISEQUAL):
+				return ExpressionType.DISEQUAL;
+			case (TokenType.EQUAL):
+				return ExpressionType.EQUAL;
+			case (TokenType.LESS):
+				return ExpressionType.LESS;
+			case (TokenType.LESS_OR_EQUAL):
+				return ExpressionType.LESS_OR_EQUAL;
+			case (TokenType.GREATER):
+				return ExpressionType.GREATER;
+			case (TokenType.GREATER_OR_EQUAL):
+				return ExpressionType.GREATER_OR_EQUAL;
+			default:
+				throw new ParsingError ();
+			}
+		}
+
+		public static bool IsExpressionOperator (TokenType currentType)
+		{
+			try {
+				Parser.GetExpressionOperator(currentType);
+				return true;
+			} catch (ParsingError) {
+				return false;
+			}
+		}
 	}
+
 
 	class ParsingError : System.Exception
 	{
 	}
 }
-

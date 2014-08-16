@@ -1,15 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/interpreter/Interpreter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/Program.cs">
     <Files>
-      <File FileName="3lang/src/Program.cs" Line="15" Column="13" />
-      <File FileName="3lang/src/parser/Parser.cs" Line="5" Column="22" />
-      <File FileName="3lang/src/structure/Tree.cs" Line="11" Column="20" />
-      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="37" Column="4" />
+      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="36" Column="6" />
+      <File FileName="3lang/src/Program.cs" Line="13" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/paolo/Develop/MonoDevelop/3lang/3lang/grammar.config" line="1" column="39" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.3lang>
