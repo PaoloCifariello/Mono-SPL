@@ -47,6 +47,9 @@
     <Compile Include="src\parser\Parser.cs" />
     <Compile Include="src\structure\Tree.cs" />
     <Compile Include="src\parser\NonTerminal.cs" />
+    <Compile Include="src\virtualmachine\VirtualMachine.cs" />
+    <Compile Include="src\virtualmachine\Evaluator.cs" />
+    <Compile Include="src\virtualmachine\Environment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -55,6 +58,7 @@
     <Folder Include="src\interpreter\" />
     <Folder Include="src\parser\" />
     <Folder Include="src\structure\" />
+    <Folder Include="src\virtualmachine\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EmptyTextFile.txt" />

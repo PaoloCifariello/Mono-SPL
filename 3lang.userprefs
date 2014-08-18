@@ -1,17 +1,44 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/virtualmachine/Evaluator.cs">
     <Files>
-      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="36" Column="6" />
-      <File FileName="3lang/src/Program.cs" Line="13" Column="18" />
+      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="45" Column="30" />
+      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="28" Column="6" />
+      <File FileName="3lang/src/virtualmachine/Evaluator.cs" Line="34" Column="2" />
+      <File FileName="3lang/EmptyTextFile.txt" Line="32" Column="25" />
+      <File FileName="3lang/src/parser/NonTerminal.cs" Line="152" Column="28" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="3lang" expanded="True">
+            <Node name="src" expanded="True">
+              <Node name="virtualmachine" expanded="True">
+                <Node name="Evaluator.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>lexer.Tokens</Value>
+          <Value>lexer.Tokens</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/paolo/Develop/MonoDevelop/3lang/3lang/grammar.config" line="1" column="39" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="3lang/src/interpreter/Interpreter.cs" line="38" offsetX="606" offsetY="666" expression="lexer.Tokens" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.ItemProperties.3lang>
     <MonoDevelop.Ide.CustomExecutionModes>
       <Data Name="Predefinito (Custom)" Id="d614d4d4-cb28-4e37-8a4e-0adc9e6123e1" ModeId="Default">
