@@ -7,7 +7,7 @@ namespace lang
 	{
 		public static void Main (string[] args)
 		{
-			Interpreter i = new Interpreter ("var a = 10;\nwhile(a >= 0) { a = a - 1;}\n");
+			Interpreter i = Interpreter.FromFile ("../../test/prova.3l");
 			i.Run ();
 		}
 	}

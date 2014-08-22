@@ -1,21 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/virtualmachine/Evaluator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/Program.cs">
     <Files>
-      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="45" Column="30" />
-      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="28" Column="6" />
-      <File FileName="3lang/src/virtualmachine/Evaluator.cs" Line="34" Column="2" />
-      <File FileName="3lang/EmptyTextFile.txt" Line="32" Column="25" />
-      <File FileName="3lang/src/parser/NonTerminal.cs" Line="152" Column="28" />
+      <File FileName="3lang/src/virtualmachine/Environment.cs" Line="48" Column="1" />
+      <File FileName="3lang/src/Program.cs" Line="12" Column="1" />
+      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="48" Column="1" />
+      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="12" Column="16" />
+      <File FileName="3lang/src/lexer/Source.cs" Line="59" Column="1" />
+      <File FileName="3lang/src/lexer/Matcher.cs" Line="14" Column="1" />
+      <File FileName="3lang/src/parser/Parser.cs" Line="141" Column="1" />
+      <File FileName="3lang/src/parser/NonTerminal.cs" Line="348" Column="1" />
+      <File FileName="3lang/src/virtualmachine/Evaluator.cs" Line="119" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="3lang" expanded="True">
             <Node name="src" expanded="True">
-              <Node name="virtualmachine" expanded="True">
-                <Node name="Evaluator.cs" selected="True" />
-              </Node>
+              <Node name="interpreter" expanded="True" />
+              <Node name="lexer" expanded="True" />
+              <Node name="parser" expanded="True" />
+              <Node name="virtualmachine" expanded="True" />
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -34,10 +40,12 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/paolo/Develop/MonoDevelop/3lang/3lang/grammar.config" line="1" column="39" />
+      <Breakpoint file="/home/paolo/Develop/MonoDevelop/3lang/3lang/src/virtualmachine/VirtualMachine.cs" line="90" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="3lang/src/interpreter/Interpreter.cs" line="38" offsetX="606" offsetY="666" expression="lexer.Tokens" liveUpdate="False" />
+    <Watch file="3lang/src/virtualmachine/VirtualMachine.cs" line="8" offsetX="318" offsetY="126" expression="env" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.ItemProperties.3lang>
     <MonoDevelop.Ide.CustomExecutionModes>

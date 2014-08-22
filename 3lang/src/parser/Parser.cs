@@ -2,6 +2,7 @@ using System;
 using lang.lexer;
 using C5;
 using lang.structure;
+using lang.virtualmachine;
 
 namespace lang.parser
 {
@@ -14,6 +15,15 @@ namespace lang.parser
 			get {
 				if (this.tokens.Count > 0)
 					return this.tokens [0].Type;
+				else
+					throw new ParsingError ();
+			}
+		}
+
+		private TokenType NextType {
+			get {
+				if (this.tokens.Count > 1)
+					return this.tokens[1].Type;
 				else
 					throw new ParsingError ();
 			}
@@ -69,8 +79,13 @@ namespace lang.parser
 				}
 			}
 
-			// If then, if then else
-			if (type == TokenType.IF) {
+			if (type == TokenType.FUNCTION) {
+				this.Pop ();
+				Function fun = this.ParseFunction ();
+				return new Statement (StatementType.FUNCTION_DECLARATION, fun);
+
+				// If then, if then else
+			} else if (type == TokenType.IF) {
 				this.Pop ();
 				Condition cnd = this.ParseCondition ();
 
@@ -122,11 +137,20 @@ namespace lang.parser
 				return new Statement (StatementType.WHILE, cnd, st);
 
 			} else {
-				Assignment asg = this.ParseAssignment ();
-				if (asg == null)
-					return null;
+				if (this.NextType != TokenType.L_PAREN) {
+					Assignment asg = this.ParseAssignment ();
+					if (asg == null)
+						return null;
+					else
+						return new Statement (StatementType.ASSIGN, asg);;
+				} else {
+					Expression fun = this.ParseExpression ();
+					if (fun == null)
+						return null;
+					else 
+						return new Statement (StatementType.FUNCTION, fun);
 
-				return new Statement (StatementType.ASSIGN, asg);
+				}
 			}
 		}
 		
@@ -203,11 +227,19 @@ namespace lang.parser
 				// Identifier case
 			} else if (this.CurrentType == TokenType.ALPHANUMERIC) {
 				Token id = this.Pop ();
-				char initial = id.Value [0];
+				if (this.CurrentType == TokenType.L_PAREN) {
+					this.Pop ();
 
-				if (!Matcher.isValidInitialIdentifier (initial))
-					return null;
-				else
+					ArrayList<Expression> parameters = this.ParseFunctionParameters ();
+
+					exp1 = new Expression (ExpressionType.FUNCTION, id.Value, parameters);
+				} else 
+
+				//char initial = id.Value [0];
+
+				//if (!Matcher.isValidInitialIdentifier (initial))
+				//	return null;
+				//else
 					exp1 = new Expression (ExpressionType.IDENTIFIER, id);
 				// Integer case
 			} else if (this.CurrentType == TokenType.INTEGER) {
@@ -243,6 +275,62 @@ namespace lang.parser
 					return new Expression (type, exp1, exp2);
 			} else 
 				return exp1;
+		}
+
+		private Function ParseFunction ()
+		{
+			if (this.CurrentType != TokenType.ALPHANUMERIC)
+				return null;
+
+			string name = this.Pop ().Value;
+
+			if (this.CurrentType != TokenType.L_PAREN)
+				return null;
+
+			this.Pop ();
+			ArrayList<string> parameters = new ArrayList<string> ();
+
+			while (this.CurrentType == TokenType.ALPHANUMERIC) {
+				parameters.Push (this.Pop ().Value);
+				if (this.CurrentType == TokenType.COMMA)
+					this.Pop ();
+			}
+
+			if (this.CurrentType != TokenType.R_PAREN)
+				return null;
+
+			this.Pop ();
+
+			if (this.CurrentType != TokenType.L_BRACE)
+				return null;
+
+			this.Pop ();
+
+			Statements st = this.ParseStatements ();
+
+			if (this.CurrentType != TokenType.R_BRACE)
+				return null;
+
+			this.Pop ();
+			return new Function (name, st, parameters);
+		}
+
+		ArrayList<Expression> ParseFunctionParameters ()
+		{
+			ArrayList<Expression> par = new ArrayList<Expression> ();
+
+			while (this.CurrentType != TokenType.R_PAREN) {
+				Expression exp = this.ParseExpression ();
+				if (exp != null)
+					par.Push (exp);
+
+				if (this.CurrentType == TokenType.COMMA)
+					this.Pop ();
+			}
+
+			this.Pop ();
+
+			return par;
 		}
 
 		public static ExpressionType GetExpressionOperator(TokenType type)

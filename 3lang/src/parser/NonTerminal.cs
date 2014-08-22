@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using lang.lexer;
 using lang.virtualmachine;
+using C5;
 
 namespace lang.parser
 {
@@ -103,6 +104,8 @@ namespace lang.parser
 		private Statements statements1;
 		private Statements statements2;
 		private Assignment assignment;
+		private Expression function;
+		private Function functionDeclaration;
 
 		public StatementType Type {
 			get {
@@ -137,10 +140,35 @@ namespace lang.parser
 			}
 		}
 
+		public Expression Function {
+			get {
+				return this.function;
+			}
+		}
+
+		public Function FunctionDeclaration {
+			get {
+				return this.functionDeclaration;
+			}
+		}
+
 		private Statement (StatementType type)
 		{
 			this.type = type;
 		}
+
+		// Function
+		public Statement(StatementType type, Expression fun) : this(type)
+		{
+			this.function = fun;
+		}
+
+		// If then else
+		public Statement (StatementType type, Function fun) : this(type)
+		{
+			this.functionDeclaration = fun;
+		}
+
 		// Assignment
 		public Statement (StatementType type, Assignment assign) : this(type)
 		{
@@ -214,6 +242,9 @@ namespace lang.parser
 		private Token[] tokens;
 		private Expression exp1;
 		private Expression exp2;
+		private string functionName;
+		private ArrayList<Expression> parameters;
+
 
 		public ExpressionType Type
 		{
@@ -242,9 +273,28 @@ namespace lang.parser
 			}
 		}
 
+		public string FunctionName {
+			get {
+				return this.functionName;
+			}
+		}
+
+		public ArrayList<Expression> Parameters {
+			get {
+				return this.parameters;
+			}
+		}
+
+
 		public Expression (ExpressionType type)
 		{
 			this.type = type;
+		}
+
+		public Expression (ExpressionType type, string id, ArrayList<Expression> parameters) : this(type)
+		{
+			this.functionName = id;
+			this.parameters = parameters;
 		}
 
 		public Expression (ExpressionType type, Token token) : this(type)
@@ -266,8 +316,44 @@ namespace lang.parser
 		}
 	}
 
+	public class Function 
+	{
+		private string Name;
+		private ArrayList<string> Parameters;
+		private Statements innerStatements;
+
+		public string Identifier {
+			get {
+				return this.Name;
+			}
+		}
+
+		public ArrayList<string> ParametersNames {
+			get {
+				return this.Parameters;
+			}
+		}
+
+		public Statements InnerStatements {
+			get {
+				return this.innerStatements;
+			}
+		}
+
+		public Function(string name, Statements inner, ArrayList<string> parameters)
+		{
+			this.Name = name;
+			this.Parameters = parameters;
+			this.innerStatements = inner;
+		}
+	}
+
+
 	public enum StatementType
 	{
+		FUNCTION,
+
+		FUNCTION_DECLARATION,
 		IF_THEN,
 		IF_THEN_ELSE,
 		WHILE,
@@ -277,6 +363,8 @@ namespace lang.parser
 
 	public enum ExpressionType
 	{
+		FUNCTION,
+
 		// Integer
 		IDENTIFIER,
 		BOOL,
@@ -296,4 +384,3 @@ namespace lang.parser
 		GREATER_OR_EQUAL
 	}
 }
-

@@ -7,11 +7,14 @@ namespace lang.virtualmachine
 	{
 		public static ExpressionValue Evaluate (Expression exp, Environment env)
 		{
+			if (exp == null)
+				return new ExpressionValue (ExpressionValueType.BOOLEAN, false);
+
 			switch (exp.Type) {
 			case (ExpressionType.IDENTIFIER):
 				{
 					string id = exp.Value;
-					return env.Get (id);
+					return env.Get (id) as ExpressionValue;
 				}
 			case (ExpressionType.BOOL):
 				{
@@ -28,85 +31,85 @@ namespace lang.virtualmachine
 			case (ExpressionType.PLUS):
 				{
 					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int + v2.Int);
 				}
 
 			case (ExpressionType.MINUS):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int - v2.Int);
 				}
 
 			case (ExpressionType.TIMES):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int * v2.Int);
 				}
 			case (ExpressionType.AND):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, v1.Bool && v2.Bool);
 				}
 			case (ExpressionType.OR):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, v1.Bool || v2.Bool);
 				}
 			case (ExpressionType.EQUAL):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, 
-					                           (v1.Bool == v2.Bool) && (v1.Int == v2.Int) && (v1.String == v2.String));
+					                            (v1.Bool == v2.Bool) && (v1.Int == v2.Int) && (v1.String == v2.String));
 				}
 			case (ExpressionType.DISEQUAL):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, 
-					                           (v1.Bool != v2.Bool) && (v1.Int != v2.Int) && (v1.String != v2.String));
-			}
+					                            (v1.Bool != v2.Bool) && (v1.Int != v2.Int) && (v1.String != v2.String));
+				}
 				
 			case (ExpressionType.LESS):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, v1.Int < v2.Int);
 				}
 				
 			case (ExpressionType.GREATER):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int > v2.Int);
 				}
 				
 			case (ExpressionType.LESS_OR_EQUAL):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int <= v2.Int);
 				}
 				
 			case (ExpressionType.GREATER_OR_EQUAL):
 				{
-				ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-				ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int >= v2.Int);
 				}
@@ -132,6 +135,7 @@ namespace lang.virtualmachine
 		private int iValue = 0;
 		private bool bValue = false;
 		private string sValue = "";
+		private Function fValue = new Function("", new Statements(), new C5.ArrayList<string>());
 
 		public bool IsBool {
 			get {
@@ -148,6 +152,12 @@ namespace lang.virtualmachine
 		public bool IsString {
 			get {
 				return this.type == ExpressionValueType.STRING;
+			}
+		}
+
+		public bool IsFunction {
+			get {
+				return this.type == ExpressionValueType.FUNCTION;
 			}
 		}
 
@@ -169,6 +179,12 @@ namespace lang.virtualmachine
 			}
 		}
 
+		public Function Function {
+			get {
+				return this.fValue;
+			}
+		}
+
 		private ExpressionValue (ExpressionValueType type)
 		{
 			this.type = type;
@@ -178,7 +194,7 @@ namespace lang.virtualmachine
 		{
 			this.sValue = value;
 			this.bValue = (value != "");
-			this.iValue = (value != "") ? 1 : 0; 
+			this.iValue = (value != "") ? 1 : 0;
 		}
 
 		public ExpressionValue (ExpressionValueType type, int value) : this(type)
@@ -195,6 +211,14 @@ namespace lang.virtualmachine
 			this.iValue = (value) ? 1 : 0;
 		}
 
+		public ExpressionValue (ExpressionValueType type, Function value) : this(type)
+		{
+			this.sValue = "_";
+			this.bValue = true;
+			this.iValue = 1;
+			this.fValue = value;
+		}
+
 		public void Substitute (ExpressionValue value)
 		{
 			this.bValue = value.Bool;
@@ -205,6 +229,8 @@ namespace lang.virtualmachine
 
 	public enum ExpressionValueType
 	{
+		FUNCTION,
+
 		STRING,
 		INTEGER,
 		BOOLEAN

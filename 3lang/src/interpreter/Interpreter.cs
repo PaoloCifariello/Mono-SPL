@@ -18,7 +18,7 @@ namespace lang.interpreter
 			this.vm = new VirtualMachine ();
 		}
 
-		private Interpreter(Lexer l)
+		private Interpreter(Lexer l) : this()
 		{
 			this.lexer = l;
 		}
@@ -36,7 +36,7 @@ namespace lang.interpreter
 		public void Run()
 		{
 			this.lexer.Tokenize ();
-			//this.lexer.PrintToken ();
+			this.lexer.PrintToken ();
 
 			Program program = this.parser.Parse (this.lexer.Tokens);
 			if (program == null)

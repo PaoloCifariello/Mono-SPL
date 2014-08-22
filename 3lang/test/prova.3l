@@ -1,0 +1,2 @@
+function antani(a,b,c) { var f = a + b + c; }
+antani(1,2,3);
