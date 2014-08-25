@@ -3,13 +3,22 @@ using lang.parser;
 
 namespace lang.virtualmachine
 {
+	public enum ExpressionValueType
+	{
+		FUNCTION,
+
+		STRING,
+		INTEGER,
+		BOOLEAN
+	}
+
 	public class ExpressionValue
 	{
 		private ExpressionValueType type;
 		private int iValue = 0;
 		private bool bValue = false;
 		private string sValue = "";
-		private Function fValue = new Function("", new Statements(), new C5.ArrayList<string>());
+		private Function fValue = new Function("", new Statements(), new C5.ArrayList<string>(), null);
 
 		public bool IsBool {
 			get {

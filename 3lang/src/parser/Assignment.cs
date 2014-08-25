@@ -10,6 +10,13 @@ namespace lang.parser
 	{
 		private string variable;
 		private Expression value;
+		private bool global;
+
+		public bool IsGlobal {
+			get {
+				return this.global;
+			}
+		}
 
 		public string Variable {
 			get {
@@ -23,12 +30,13 @@ namespace lang.parser
 			}
 		}
 
-		public Assignment (string variable)
+		public Assignment (string variable, bool global)
 		{
 			this.variable = variable;
+			this.global = global;
 		}
 
-		public Assignment (string variable, Expression value) : this(variable)
+		public Assignment (string variable, Expression value, bool global) : this(variable, global)
 		{
 			this.value = value;
 		}

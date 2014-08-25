@@ -66,8 +66,12 @@
     <Folder Include="src\parser\" />
     <Folder Include="src\structure\" />
     <Folder Include="src\virtualmachine\" />
+    <Folder Include="test\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar" />
+    <None Include="test\arraysum\arraysum.3l" />
+    <None Include="test\recursion\recursion.3l" />
+    <None Include="test\sum\sum.3l" />
   </ItemGroup>
 </Project>

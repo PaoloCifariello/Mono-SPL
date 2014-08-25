@@ -10,6 +10,7 @@ namespace lang.virtualmachine
 		public VirtualMachine ()
 		{
 			this.env = new Environment ();
+			Evaluator.Init (this);
 		}
 
 		public void Execute (Program program)
@@ -83,37 +84,46 @@ namespace lang.virtualmachine
 
 		void DeclareFunction (Function function)
 		{
-			this.env.Add (
+			this.env.Declcare (
 				function.Identifier, 
 				function
 				);
 		}
 
-		void ExecuteFunction(Expression fun)
+		public ExpressionValue ExecuteFunction(Expression fun)
 		{
 			Function f = this.env.Get (fun.FunctionName) as Function;
 
 			if (f == null)
-				return;
+				return null;
 
 			this.env.PushEnvironment ();
 			for (int i = 0; i < fun.Parameters.Count; i++) {
-				this.env.Add (
+				this.env.Declcare (
 					f.ParametersNames [i], 
 					Evaluator.Evaluate (fun.Parameters [i], this.env)
 				);
 			}
 
 			this.ExecuteStatements (f.InnerStatements);
+			ExpressionValue ev = Evaluator.Evaluate (f.ReturnValue, this.env);
+
 			this.env.PopEnvironment ();
+			return ev;
 		}
 
 		private void Assign (Assignment assignment)
 		{
-			this.env.Add (
-				assignment.Variable, 
-				Evaluator.Evaluate(assignment.Value, this.env)
-				);
+			if (assignment.IsGlobal)
+				this.env.Modify (
+					assignment.Variable, 
+					Evaluator.Evaluate(assignment.Value, this.env)
+					);
+			else
+				this.env.Declcare (
+					assignment.Variable, 
+					Evaluator.Evaluate(assignment.Value, this.env)
+					);
 		}
 	}
 }

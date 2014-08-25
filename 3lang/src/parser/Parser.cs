@@ -95,7 +95,7 @@ namespace lang.parser
 				this.Pop ();
 				Statements st1 = this.ParseStatements ();
 
-				if (st1 == null || this.CurrentType != TokenType.R_BRACE)
+				if (this.CurrentType != TokenType.R_BRACE)
 					return null;
 
 				this.Pop ();
@@ -183,7 +183,7 @@ namespace lang.parser
 
 				if (this.CurrentType == TokenType.SEMI) {
 					this.Pop ();
-					return new Assignment (word);
+					return new Assignment (word, false);
 				} else if (this.CurrentType == TokenType.ASSIGN) {
 					this.Pop ();
 					Expression exp = this.ParseExpression ();
@@ -192,7 +192,7 @@ namespace lang.parser
 						return null;
 
 					this.Pop ();
-					return new Assignment (word, exp);
+					return new Assignment (word, exp, false);
 				} else
 					return null;
 			} else if (this.CurrentType == TokenType.ALPHANUMERIC) {
@@ -209,7 +209,7 @@ namespace lang.parser
 					return null;
 
 				this.Pop ();
-				return new Assignment (word, exp);
+				return new Assignment (word, exp, true);
 			} else
 				return null;
 		}
@@ -308,12 +308,22 @@ namespace lang.parser
 			this.Pop ();
 
 			Statements st = this.ParseStatements ();
+			Expression returnValue = null;
+
+			if (this.CurrentType == TokenType.RETURN) {
+				this.Pop ();
+				returnValue = this.ParseExpression ();
+				if (this.CurrentType != TokenType.SEMI)
+					return null;
+
+				this.Pop ();
+			}
 
 			if (this.CurrentType != TokenType.R_BRACE)
 				return null;
 
 			this.Pop ();
-			return new Function (name, st, parameters);
+			return new Function (name, st, parameters, returnValue);
 		}
 
 		ArrayList<Expression> ParseFunctionParameters ()

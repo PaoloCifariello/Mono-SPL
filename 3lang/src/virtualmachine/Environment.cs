@@ -31,12 +31,35 @@ namespace lang.virtualmachine
 				this.env.RemoveAt (this.env.Count - 1);
 		}
 
-		public void Add(string variable, Object value)
+		/**
+		 *	When push something on top of the Environment stack 
+		 *	var $identifier = ...;
+		 * 
+		 */
+		public void Declcare(string variable, Object value)
+		{
+			Object old;
+			int last = this.env.Count - 1;
+
+			if (this.env [last].TryGetValue (variable, out old)) {
+				this.env [last].Remove (variable);
+				this.env [last].Add (variable, value);
+			} else {
+				this.env [last].Add (variable, value);
+			}
+		}
+
+		/**
+		 *	When modify something or declare some global variable
+		 * 	$identifier = ...;
+		 * 
+		 */
+		public void Modify(string variable, Object value)
 		{
 			Object old;
 			bool found = false;
 
-			for (int i = this.env.Count - 1; i > 0; i--)
+			for (int i = this.env.Count - 1; i >= 0; i--)
 				if (this.env[i].TryGetValue (variable, out old)) {
 					this.env [i].Remove (variable);
 					this.env [i].Add (variable, value);
@@ -44,7 +67,7 @@ namespace lang.virtualmachine
 					break;
 				}
 			if (!found)
-				this.env[this.env.Count - 1].Add (variable, value);
+				this.env[0].Add (variable, value);
 		}
 
 		public Object Get(string variable)
@@ -58,5 +81,9 @@ namespace lang.virtualmachine
 
 			return null;
 		}
+	}
+
+	public class AssignmentAlreadyExists : SystemException
+	{
 	}
 }
