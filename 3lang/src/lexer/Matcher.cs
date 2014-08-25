@@ -10,10 +10,11 @@ namespace lang.lexer
 
 		public Matcher ()
 		{
-			this.InitializeMatchList ();
+			this.InitializeKeywordMatchList ();
+			this.InitializeSpecialMatchList ();
 		}
 
-		public void InitializeMatchList()
+		public void InitializeKeywordMatchList()
 		{
 			this.KeywordMatcher = new MatchKey[] {
 				//new MatchKey(TokenType.VOID, "void"),
@@ -32,7 +33,10 @@ namespace lang.lexer
 				new MatchKey(TokenType.NEW, "new"),
 				new MatchKey(TokenType.NULL, "null")
 			};
+		}
 
+		void InitializeSpecialMatchList ()
+		{
 			this.SpecialMatcher = new MatchKey[] {
 				new MatchKey(TokenType.PLUS, "+"),
 				new MatchKey(TokenType.MINUS, "-"),
@@ -62,7 +66,6 @@ namespace lang.lexer
 				new MatchKey(TokenType.ASSIGN, "="),
 				new MatchKey(TokenType.LINE_END, "\0")
 			};
-
 		}
 
 		public Token Match(string line)
@@ -143,12 +146,12 @@ namespace lang.lexer
 			return -1;
 		}
 
-		public static bool isNumber(char c)
+		private static bool isNumber(char c)
 		{
 			return (c >= '0' && c <= '9');
 		}
 
-		public static bool isAlphanumeric(char c)
+		private static bool isAlphanumeric(char c)
 		{
 			if (isNumber (c))
 				return true;
@@ -156,7 +159,7 @@ namespace lang.lexer
 			return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '$') || (c == '_'));
 		}
 
-		public static bool isValidInitialIdentifier (char c)
+		private static bool isValidInitialIdentifier (char c)
 		{
 			return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '$') || (c == '_'));
 		}
@@ -184,10 +187,9 @@ namespace lang.lexer
 		public int Length
 		{
 			get {
-				if (this.word != null)
-					return this.word.Length;
-				else
-					return 0;
+				return (this.word != null) ? 
+					this.word.Length : 
+						0;
 			}
 		}
 

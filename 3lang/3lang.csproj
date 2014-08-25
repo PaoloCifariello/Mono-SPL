@@ -46,10 +46,17 @@
     <Compile Include="src\interpreter\Interpreter.cs" />
     <Compile Include="src\parser\Parser.cs" />
     <Compile Include="src\structure\Tree.cs" />
-    <Compile Include="src\parser\NonTerminal.cs" />
     <Compile Include="src\virtualmachine\VirtualMachine.cs" />
     <Compile Include="src\virtualmachine\Evaluator.cs" />
     <Compile Include="src\virtualmachine\Environment.cs" />
+    <Compile Include="src\parser\Program.cs" />
+    <Compile Include="src\parser\Statements.cs" />
+    <Compile Include="src\parser\Statement.cs" />
+    <Compile Include="src\parser\Condition.cs" />
+    <Compile Include="src\parser\Assignment.cs" />
+    <Compile Include="src\parser\Expression.cs" />
+    <Compile Include="src\parser\Function.cs" />
+    <Compile Include="src\virtualmachine\ExpressionValue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -61,6 +68,6 @@
     <Folder Include="src\virtualmachine\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="EmptyTextFile.txt" />
+    <None Include="Grammar" />
   </ItemGroup>
 </Project>

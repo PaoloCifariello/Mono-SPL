@@ -83,7 +83,10 @@ namespace lang.virtualmachine
 
 		void DeclareFunction (Function function)
 		{
-			this.env.Add (function.Identifier, function);
+			this.env.Add (
+				function.Identifier, 
+				function
+				);
 		}
 
 		void ExecuteFunction(Expression fun)
@@ -102,11 +105,15 @@ namespace lang.virtualmachine
 			}
 
 			this.ExecuteStatements (f.InnerStatements);
+			this.env.PopEnvironment ();
 		}
 
 		private void Assign (Assignment assignment)
 		{
-			this.env.Add (assignment.Variable, Evaluator.Evaluate(assignment.Value, this.env));
+			this.env.Add (
+				assignment.Variable, 
+				Evaluator.Evaluate(assignment.Value, this.env)
+				);
 		}
 	}
 }

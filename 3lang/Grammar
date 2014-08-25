@@ -10,7 +10,9 @@ STATEMENT:
 	if CONDITION { STATEMENTS } else { STATEMENTS }
 	while CONDITION { STATEMENTS }
 	ASSIGNMENT
-		
+	function $identifier (PAR1, ... , PARn) { STATEMENTS }
+	$identifier(EXPRESSION, ... , EXPRESSION);
+			
 CONDITION:
 	(EXPRESSION)
 
@@ -41,7 +43,7 @@ EXPRESSION:
 	EXPRESSION <= EXPRESSION
 	EXPRESSION >= EXPRESSION
 
-	
+
 $integer -> 0,1,2,3,4
 $identifier -> a12, $$, $__, tmp, A1__$
 $bool -> true, false

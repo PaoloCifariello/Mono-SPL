@@ -36,7 +36,7 @@ namespace lang.interpreter
 		public void Run()
 		{
 			this.lexer.Tokenize ();
-			this.lexer.PrintToken ();
+			//this.lexer.PrintToken ();
 
 			Program program = this.parser.Parse (this.lexer.Tokens);
 			if (program == null)

@@ -39,10 +39,9 @@ namespace lang.lexer
 
 		public string getLine()
 		{
-			if (this.lines.Length >= this.line_counter)
-				return this.lines [this.line_counter++];
-			else 
-				return null;
+			return (this.lines.Length >= this.line_counter) ? 
+				this.lines [this.line_counter++] : 
+					null;
 		}
 
 		public void Print()

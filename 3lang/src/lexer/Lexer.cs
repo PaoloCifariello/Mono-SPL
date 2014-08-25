@@ -74,7 +74,6 @@ namespace lang.lexer
 					break;
 				}
 			}
-
 		}
 
 		public void Tokenize() 

@@ -136,6 +136,7 @@ namespace lang.parser
 
 				return new Statement (StatementType.WHILE, cnd, st);
 
+			// var, alphanumeric or alphanumeric ()
 			} else {
 				if (this.NextType != TokenType.L_PAREN) {
 					Assignment asg = this.ParseAssignment ();

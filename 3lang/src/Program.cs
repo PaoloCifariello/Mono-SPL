@@ -7,8 +7,17 @@ namespace lang
 	{
 		public static void Main (string[] args)
 		{
-			Interpreter i = Interpreter.FromFile ("../../test/prova.3l");
-			i.Run ();
+			string[] tests = {
+				"../../test/simple/simple1.3l",
+				"../../test/simple/simple1.3l",
+				"../../test/simple/simple1.3l",
+				"../../test/simple/simple1.3l"
+			};
+
+			for ( int i = 0; i < tests.Length; i++) {
+				Interpreter interp = Interpreter.FromFile (tests[i]);
+				interp.Run ();
+			}
 		}
 	}
 }
