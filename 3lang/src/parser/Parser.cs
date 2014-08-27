@@ -148,8 +148,12 @@ namespace lang.parser
 					Expression fun = this.ParseExpression ();
 					if (fun == null)
 						return null;
-					else 
+					else {
+						if (this.CurrentType != TokenType.SEMI)
+							return null;
+						this.Pop ();
 						return new Statement (StatementType.FUNCTION, fun);
+					}
 
 				}
 			}

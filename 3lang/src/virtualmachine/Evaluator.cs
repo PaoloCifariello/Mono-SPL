@@ -44,7 +44,10 @@ namespace lang.virtualmachine
 					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
 					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
 
-					return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int + v2.Int);
+					if (v1.IsString)
+						return new ExpressionValue (ExpressionValueType.STRING, v1.String + v2.String);
+					else 
+						return new ExpressionValue (ExpressionValueType.INTEGER, v1.Int + v2.Int);
 				}
 
 			case (ExpressionType.MINUS):

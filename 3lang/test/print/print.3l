@@ -1,0 +1,2 @@
+var r = "Provando";
+print(r + "astampare");

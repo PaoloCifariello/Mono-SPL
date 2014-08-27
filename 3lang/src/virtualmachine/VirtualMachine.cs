@@ -11,6 +11,8 @@ namespace lang.virtualmachine
 		{
 			this.env = new Environment ();
 			Evaluator.Init (this);
+
+			this.AddSystemFunctions ();
 		}
 
 		public void Execute (Program program)
@@ -97,6 +99,11 @@ namespace lang.virtualmachine
 			if (f == null)
 				return null;
 
+			if (this.IsSystemFunction (fun.FunctionName)) {
+				this.ExecuteSystemFunction (fun);
+				return null;
+			}
+
 			this.env.PushEnvironment ();
 			for (int i = 0; i < fun.Parameters.Count; i++) {
 				this.env.Declcare (
@@ -124,6 +131,34 @@ namespace lang.virtualmachine
 					assignment.Variable, 
 					Evaluator.Evaluate(assignment.Value, this.env)
 					);
+		}
+
+		void AddSystemFunctions ()
+		{
+			this.env.Modify("print", new Function("print", new Statements(), null, null));
+		}
+
+		bool IsSystemFunction (string functionName)
+		{
+			return (functionName == "print");
+		}
+
+		void ExecuteSystemFunction (Expression fun)
+		{
+			
+			if (fun.FunctionName == "print") {
+				ExpressionValue val = Evaluator.Evaluate (fun.Parameters [0], this.env);
+				if (val.IsInt)
+					Console.WriteLine (val.Int);
+				else if (val.IsBool)
+					Console.WriteLine (val.Bool);
+				else if (val.IsString)
+					Console.WriteLine (val.String);
+				else if (val.IsFunction)
+					Console.WriteLine ("Function " + val.Function.Identifier);
+				else 
+					Console.WriteLine ("undefined");
+			}
 		}
 	}
 }

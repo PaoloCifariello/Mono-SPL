@@ -1,5 +1,6 @@
 function fact(a) { 
 var r = 1;
 if (a > 1) { r = a * fact(a - 1); }
+print(r);
 return r; }
 var b = fact(5);
