@@ -70,8 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar" />
-    <None Include="test\recursion\recursion.3l" />
     <None Include="test\sum\sum.3l" />
     <None Include="test\print\print.3l" />
+    <None Include="test\recursion\fibonacci.3l" />
+    <None Include="test\recursion\factorial.3l" />
   </ItemGroup>
 </Project>
