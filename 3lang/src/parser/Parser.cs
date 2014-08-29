@@ -16,16 +16,18 @@ namespace lang.parser
 				if (this.tokens.Count > 0)
 					return this.tokens [0].Type;
 				else
-					throw new ParsingError ();
+					return TokenType.END;
+					//throw new ParsingError ();
 			}
 		}
 
 		private TokenType NextType {
 			get {
 				if (this.tokens.Count > 1)
-					return this.tokens[1].Type;
+					return this.tokens [1].Type;
 				else
-					throw new ParsingError ();
+					return TokenType.END;
+					//throw new ParsingError ();
 			}
 		}
 
@@ -68,16 +70,10 @@ namespace lang.parser
 
 		private Statement ParseStatement()
 		{
-			TokenType type = this.CurrentType;
-			if (type == TokenType.LINE_END) {
+			while (this.CurrentType == TokenType.LINE_END)
 				this.Pop ();
 
-				try {
-					type = this.CurrentType;
-				} catch (ParsingError) {
-					return null;
-				}
-			}
+			TokenType type = this.CurrentType;
 
 			if (type == TokenType.FUNCTION) {
 				this.Pop ();

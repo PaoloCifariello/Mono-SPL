@@ -148,6 +148,8 @@ namespace lang.lexer
 		R_BRACKET,		// ]
 		ASSIGN,			// =
 		EQUAL,			// ==
-		LINE_END		// \n
+		LINE_END,		// \n
+
+		END				// End of source code
 	};
 }

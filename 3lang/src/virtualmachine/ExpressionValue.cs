@@ -82,21 +82,21 @@ namespace lang.virtualmachine
 
 		public ExpressionValue (ExpressionValueType type, int value) : this(type)
 		{
-			this.sValue = (value != 0) ? "_" : "";
+			this.sValue = value.ToString ();
 			this.bValue = (value != 0) ? true : false;
 			this.iValue = value;
 		}
 
 		public ExpressionValue (ExpressionValueType type, bool value) : this(type)
 		{
-			this.sValue = (value) ? "_" : "";
+			this.sValue = value.ToString ();
 			this.bValue = value;
 			this.iValue = (value) ? 1 : 0;
 		}
 
 		public ExpressionValue (ExpressionValueType type, Function value) : this(type)
 		{
-			this.sValue = "_";
+			this.sValue = "function";
 			this.bValue = true;
 			this.iValue = 1;
 			this.fValue = value;

@@ -1,2 +1,3 @@
 var r = "Provando";
-print(r + "astampare");
+
+print(r + " a stampare qualcosa!");
