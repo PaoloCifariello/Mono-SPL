@@ -3,6 +3,7 @@ using lang.lexer;
 using C5;
 using lang.structure;
 using lang.virtualmachine;
+using System.Collections.Generic;
 
 namespace lang.parser
 {
@@ -41,6 +42,18 @@ namespace lang.parser
 				return this.tokens.RemoveAt (0);
 			else
 				return null;
+		}
+
+		private Token Pop(int n)
+		{
+			Token last = null;
+
+			for (int i = 0; i < n; i++) {
+				if ((last = this.Pop()) == null)
+					return null;
+			}
+
+			return last;
 		}
 
 		public Program Parse (ArrayList<Token> tokens)
@@ -210,6 +223,22 @@ namespace lang.parser
 
 				this.Pop ();
 				return new Assignment (word, exp, true);
+			} else if (this.CurrentType == TokenType.OBJECT_ACCESS) {
+				List<string> accessor = this.Pop ().AccessKey;
+
+				if (this.CurrentType != TokenType.ASSIGN)
+					return null;
+
+				this.Pop ();
+
+				Expression exp = this.ParseExpression ();
+
+				if (exp == null || this.CurrentType != TokenType.SEMI)
+					return null;
+
+				this.Pop ();
+				return new Assignment (accessor, exp, true);
+
 			} else
 				return null;
 		}
@@ -262,9 +291,13 @@ namespace lang.parser
 				this.Pop ();
 				exp1 = new Expression (ExpressionType.STRING, str);
 				// Expression combination case
-			} else {
+			} else if (this.CurrentType == TokenType.L_BRACE && this.NextType == TokenType.R_BRACE) {
+				this.Pop (2);
+				return new Expression (ExpressionType.OBJECT);
+			} else if (this.CurrentType == TokenType.OBJECT_ACCESS) {
+				exp1 = new Expression (ExpressionType.OBJECT_ACCESSOR, this.Pop ().AccessKey);
+			} else
 				return null;
-			}
 
 			if (Parser.IsExpressionOperator (this.CurrentType)) {
 				ExpressionType type = Parser.GetExpressionOperator (this.CurrentType);

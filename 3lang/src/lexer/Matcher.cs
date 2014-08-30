@@ -74,10 +74,7 @@ namespace lang.lexer
 			for (int i = 0; i < this.KeywordMatcher.Length; i++) {
 				if (this.KeywordMatcher [i].Match (line)) {
 
-					return new Token (
-						this.KeywordMatcher [i].Type,
-						null
-					);
+					return new Token (this.KeywordMatcher [i].Type);
 				}
 			}
 
@@ -86,10 +83,7 @@ namespace lang.lexer
 			for (int i = 0; i < this.SpecialMatcher.Length; i++) {
 				if (this.SpecialMatcher [i].Match (line)) {
 
-					return new Token (
-						this.SpecialMatcher [i].Type,
-						null
-					);
+					return new Token (this.SpecialMatcher [i].Type);
 				}
 			}
 
@@ -118,11 +112,30 @@ namespace lang.lexer
 						TokenType.ALPHANUMERIC,
 						line.Substring (0)
 					);
-				else
-					return new Token (
-						TokenType.ALPHANUMERIC,
-						line.Substring (0, idx)
-					);
+				else { 
+					if (line [idx] != '.') {
+						return new Token (
+							TokenType.ALPHANUMERIC,
+							line.Substring (0, idx)
+						);
+					} else {
+						List<string> AssignKey = new List<string> ();
+						int idx_aux = idx;
+
+						AssignKey.Add (line.Substring (0, idx_aux));
+
+						while (line[idx_aux] == '.') {
+							idx_aux = idx_aux + 1 + Matcher.ParseAlphanumeric (line.Substring (idx_aux + 1));
+							AssignKey.Add (line.Substring (idx + 1, idx_aux - (idx + 1)));
+							idx = idx_aux;
+						}
+
+						return new Token (
+							TokenType.OBJECT_ACCESS,
+							AssignKey
+						);
+					}
+				}
 			}
 
 			return null;

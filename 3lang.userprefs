@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/Program.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/test/recursion/fibonacci.3l">
     <Files>
-      <File FileName="3lang/src/Program.cs" Line="22" Column="1" />
-      <File FileName="3lang/test/recursion/fibonacci.3l" Line="6" Column="1" />
-      <File FileName="3lang/src/parser/Parser.cs" Line="8" Column="2" />
-      <File FileName="3lang/src/lexer/Token.cs" Line="153" Column="31" />
+      <File FileName="3lang/test/print/print.3l" Line="3" Column="34" />
+      <File FileName="3lang/test/recursion/fibonacci.3l" Line="12" Column="8" />
+      <File FileName="3lang/src/virtualmachine/ExpressionValue.cs" Line="99" Column="27" />
+      <File FileName="3lang/src/virtualmachine/Evaluator.cs" Line="48" Column="86" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

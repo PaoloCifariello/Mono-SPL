@@ -1,4 +1,4 @@
-var n = 25;
+var n = 20;
 
 function fib(n) {
 var r = 1;

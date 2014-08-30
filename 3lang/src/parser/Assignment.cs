@@ -11,10 +11,18 @@ namespace lang.parser
 		private string variable;
 		private Expression value;
 		private bool global;
+		private bool simple;
+		private List<string> accesKey;
 
 		public bool IsGlobal {
 			get {
 				return this.global;
+			}
+		}
+
+		public bool IsSimple {
+			get {
+				return this.simple;
 			}
 		}
 
@@ -30,15 +38,30 @@ namespace lang.parser
 			}
 		}
 
+		public List<string> AccesKey {
+			get {
+				return accesKey;
+			}
+		}
+
 		public Assignment (string variable, bool global)
 		{
 			this.variable = variable;
 			this.global = global;
+			this.simple = true;
 		}
 
 		public Assignment (string variable, Expression value, bool global) : this(variable, global)
 		{
 			this.value = value;
+		}
+
+		public Assignment (List<string> accessor, Expression value, bool global)
+		{
+			this.accesKey = accessor;
+			this.value = value;
+			this.global = global;
+			this.simple = false;
 		}
 	}
 }

@@ -8,6 +8,10 @@ namespace lang.parser
 {
 	public enum ExpressionType
 	{
+		OBJECT_ACCESSOR,
+
+		OBJECT,
+
 		FUNCTION,
 
 		// Integer
@@ -37,6 +41,7 @@ namespace lang.parser
 		private Expression exp2;
 		private string functionName;
 		private ArrayList<Expression> parameters;
+		private List<string> accessorKey;
 
 		public ExpressionType Type
 		{
@@ -76,9 +81,20 @@ namespace lang.parser
 			}
 		}
 
+		public List<string> AccessKey {
+			get {
+				return this.accessorKey;
+			}
+		}
+
 		public Expression (ExpressionType type)
 		{
 			this.type = type;
+		}
+
+		public Expression(ExpressionType type, List<string> accessor ) : this(type)
+		{
+			this.accessorKey = accessor;
 		}
 
 		public Expression (ExpressionType type, string id, ArrayList<Expression> parameters) : this(type)

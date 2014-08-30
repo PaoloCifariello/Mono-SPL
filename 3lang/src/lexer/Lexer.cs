@@ -64,7 +64,7 @@ namespace lang.lexer
 					return false;
 
 				this.tokens.Push (new Token (TokenType.ALPHANUMERIC, value));
-				this.tokens.Push (new Token (TokenType.QUOTE, null));
+				this.tokens.Push (new Token (TokenType.QUOTE));
 			}
 
 			return true;
@@ -112,7 +112,7 @@ namespace lang.lexer
 				while (this.AddNextToken());
 
 				tokens.Push (
-					new Token (TokenType.LINE_END, null)
+					new Token (TokenType.LINE_END)
 					);
 			}
 		}

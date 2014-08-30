@@ -66,6 +66,7 @@
     <Folder Include="src\structure\" />
     <Folder Include="src\virtualmachine\" />
     <Folder Include="test\" />
+    <Folder Include="test\object\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar" />
@@ -73,5 +74,6 @@
     <None Include="test\print\print.3l" />
     <None Include="test\recursion\fibonacci.3l" />
     <None Include="test\recursion\factorial.3l" />
+    <None Include="test\object\object.3l" />
   </ItemGroup>
 </Project>

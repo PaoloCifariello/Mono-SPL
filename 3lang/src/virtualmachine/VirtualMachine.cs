@@ -1,5 +1,6 @@
 using System;
 using lang.parser;
+using System.Collections.Generic;
 
 namespace lang.virtualmachine
 {
@@ -121,16 +122,30 @@ namespace lang.virtualmachine
 
 		private void Assign (Assignment assignment)
 		{
-			if (assignment.IsGlobal)
-				this.env.Modify (
-					assignment.Variable, 
-					Evaluator.Evaluate(assignment.Value, this.env)
+			if (assignment.IsSimple) {
+				if (assignment.IsGlobal)
+					this.env.Modify (
+						assignment.Variable, 
+						Evaluator.Evaluate (assignment.Value, this.env)
 					);
-			else
-				this.env.Declcare (
-					assignment.Variable, 
-					Evaluator.Evaluate(assignment.Value, this.env)
+				else
+					this.env.Declcare (
+						assignment.Variable, 
+						Evaluator.Evaluate (assignment.Value, this.env)
 					);
+			} else {
+				List<string> accessor = assignment.AccesKey;
+				ExpressionValue MainObject = this.env.Get (accessor [0]) as ExpressionValue;
+
+				for (int i = 1; i < accessor.Count - 1; i++) {
+					 MainObject = MainObject.GetProperty (accessor [i]);
+				}
+
+				MainObject.SetProperty (
+					accessor [accessor.Count - 1], 
+					Evaluator.Evaluate (assignment.Value, env)
+				);
+			}
 		}
 
 		void AddSystemFunctions ()
@@ -149,13 +164,15 @@ namespace lang.virtualmachine
 			if (fun.FunctionName == "print") {
 				ExpressionValue val = Evaluator.Evaluate (fun.Parameters [0], this.env);
 				if (val.IsInt)
-					Console.WriteLine (val.Int);
+					Console.WriteLine (val.Number);
 				else if (val.IsBool)
 					Console.WriteLine (val.Bool);
 				else if (val.IsString)
 					Console.WriteLine (val.String);
 				else if (val.IsFunction)
 					Console.WriteLine ("Function " + val.Function.Identifier);
+				else if (val.IsObject)
+					Console.WriteLine ("Object");
 				else 
 					Console.WriteLine ("undefined");
 			}

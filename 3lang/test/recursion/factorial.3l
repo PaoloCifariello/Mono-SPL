@@ -6,6 +6,6 @@ r = a * fact(a - 1); }
 
 return r; }
 
-var b = fact(5);
+var b = fact(12);
 
-print("5! = " + b);
+print("12! = " + b);
