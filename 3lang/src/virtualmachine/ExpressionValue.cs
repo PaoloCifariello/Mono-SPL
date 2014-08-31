@@ -1,15 +1,28 @@
 using System;
 using lang.parser;
+using System.Collections.Generic;
 
 namespace lang.virtualmachine
 {
+	public enum ExpressionValueType
+	{
+		OBJECT,
+		FUNCTION,
+
+		STRING,
+		NUMBER,
+		BOOLEAN
+	}
+
 	public class ExpressionValue
 	{
 		private ExpressionValueType type;
-		private int iValue = 0;
+		private int nValue = 0;
 		private bool bValue = false;
 		private string sValue = "";
-		private Function fValue = new Function("", new Statements(), new C5.ArrayList<string>());
+		private Function fValue = new Function("", new Statements(), new C5.ArrayList<string>(), null);
+		private Dictionary<string, ExpressionValue> members;
+
 
 		public bool IsBool {
 			get {
@@ -19,7 +32,7 @@ namespace lang.virtualmachine
 
 		public bool IsInt {
 			get {
-				return this.type == ExpressionValueType.INTEGER;
+				return this.type == ExpressionValueType.NUMBER;
 			}
 		}
 
@@ -35,15 +48,21 @@ namespace lang.virtualmachine
 			}
 		}
 
+		public bool IsObject {
+			get {
+				return this.type == ExpressionValueType.OBJECT;
+			}
+		}
+
 		public bool Bool {
 			get {
 				return this.bValue;
 			}
 		}
 
-		public int Int {
+		public int Number {
 			get {
-				return this.iValue;
+				return this.nValue;
 			}
 		}
 
@@ -59,45 +78,58 @@ namespace lang.virtualmachine
 			}
 		}
 
-		private ExpressionValue (ExpressionValueType type)
+		public ExpressionValue (ExpressionValueType type)
 		{
 			this.type = type;
+			if (type == ExpressionValueType.OBJECT)
+				this.members = new Dictionary<string, ExpressionValue>();
 		}
 
 		public ExpressionValue (ExpressionValueType type, string value) : this(type)
 		{
 			this.sValue = value;
 			this.bValue = (value != "");
-			this.iValue = (value != "") ? 1 : 0;
+			this.nValue = (value != "") ? 1 : 0;
 		}
 
 		public ExpressionValue (ExpressionValueType type, int value) : this(type)
 		{
-			this.sValue = (value != 0) ? "_" : "";
+			this.sValue = value.ToString ();
 			this.bValue = (value != 0) ? true : false;
-			this.iValue = value;
+			this.nValue = value;
 		}
 
 		public ExpressionValue (ExpressionValueType type, bool value) : this(type)
 		{
-			this.sValue = (value) ? "_" : "";
+			this.sValue = value.ToString ();
 			this.bValue = value;
-			this.iValue = (value) ? 1 : 0;
+			this.nValue = (value) ? 1 : 0;
 		}
 
 		public ExpressionValue (ExpressionValueType type, Function value) : this(type)
 		{
-			this.sValue = "_";
+			this.sValue = "function";
 			this.bValue = true;
-			this.iValue = 1;
+			this.nValue = 1;
 			this.fValue = value;
 		}
 
 		public void Substitute (ExpressionValue value)
 		{
 			this.bValue = value.Bool;
-			this.iValue = value.Int;
+			this.nValue = value.Number;
 			this.sValue = value.String;
+		}
+		
+		public ExpressionValue GetProperty (string str)
+		{
+			return this.members [str];
+		}
+
+		public void SetProperty (string str, ExpressionValue value)
+		{
+			this.members.Remove (str);
+			this.members.Add (str, value);
 		}
 	}
 	

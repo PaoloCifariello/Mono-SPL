@@ -21,7 +21,6 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -66,8 +65,16 @@
     <Folder Include="src\parser\" />
     <Folder Include="src\structure\" />
     <Folder Include="src\virtualmachine\" />
+    <Folder Include="test\" />
+    <Folder Include="test\object\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar" />
+    <None Include="test\sum\sum.3l" />
+    <None Include="test\print\print.3l" />
+    <None Include="test\recursion\fibonacci.3l" />
+    <None Include="test\recursion\factorial.3l" />
+    <None Include="test\object\object.3l" />
+    <None Include="test\object\function.3l" />
   </ItemGroup>
 </Project>

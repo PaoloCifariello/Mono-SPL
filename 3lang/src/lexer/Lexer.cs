@@ -57,7 +57,34 @@ namespace lang.lexer
 			int length = CurrentToken.Length;
 			this.CurrentLine = this.CurrentLine.Substring (length);
 
+			// string case
+			if (CurrentToken.Type == TokenType.QUOTE) {
+				string value = this.ParseString ();
+				if (value == null)
+					return false;
+
+				this.tokens.Push (new Token (TokenType.ALPHANUMERIC, value));
+				this.tokens.Push (new Token (TokenType.QUOTE));
+			}
+
 			return true;
+		}
+
+		private string ParseString ()
+		{
+			int ind = this.CurrentLine.IndexOf ('"');
+			if (ind == -1)
+				return null;
+
+			string val = this.CurrentLine.Substring (0, ind);
+			this.CurrentLine = this.CurrentLine.Substring (ind);
+
+			// Looking for second quote
+			if (this.CurrentLine [0] != '"')
+				return null;
+
+			this.CurrentLine = this.CurrentLine.Substring (1);
+			return val;
 		}
 
 		private void SkipEmptyChar ()
@@ -83,10 +110,6 @@ namespace lang.lexer
 				this.CurrentLine = this.source.getLine ();
 
 				while (this.AddNextToken());
-
-				tokens.Push (
-					new Token (TokenType.LINE_END, null)
-					);
 			}
 		}
 

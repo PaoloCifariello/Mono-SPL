@@ -1,44 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/virtualmachine/VirtualMachine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/virtualmachine/Environment.cs">
     <Files>
-      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="39" Column="6" />
-      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="89" Column="5" />
+      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="37" Column="2" />
+      <File FileName="3lang/src/parser/Parser.cs" Line="299" Column="26" />
+      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="25" Column="1" />
+      <File FileName="3lang/src/parser/Expression.cs" Line="115" Column="4" />
+      <File FileName="3lang/src/virtualmachine/Evaluator.cs" Line="28" Column="78" />
+      <File FileName="3lang/test/object/object.3l" Line="2" Column="1" />
+      <File FileName="3lang/src/Program.cs" Line="13" Column="7" />
+      <File FileName="3lang/test/object/function.3l" Line="5" Column="3" />
+      <File FileName="3lang/src/parser/Program.cs" Line="28" Column="1" />
+      <File FileName="3lang/src/parser/Statements.cs" Line="28" Column="1" />
+      <File FileName="3lang/src/parser/Assignment.cs" Line="65" Column="1" />
+      <File FileName="3lang/src/parser/Statement.cs" Line="95" Column="1" />
+      <File FileName="3lang/src/parser/Function.cs" Line="46" Column="1" />
+      <File FileName="3lang/src/virtualmachine/Environment.cs" Line="78" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="3lang" expanded="True">
-            <Node name="src" expanded="True">
-              <Node name="interpreter" expanded="True" />
-              <Node name="parser" expanded="True" />
-              <Node name="virtualmachine" expanded="True">
-                <Node name="VirtualMachine.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="ClassPad">
-        <State expanded="True" selected="True" />
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State>
-          <Value>lexer.Tokens</Value>
-          <Value>lexer.Tokens</Value>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/home/paolo/Develop/MonoDevelop/3lang/3lang/grammar.config" line="1" column="39" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="3lang/src/interpreter/Interpreter.cs" line="38" offsetX="606" offsetY="666" expression="lexer.Tokens" liveUpdate="False" />
-    <Watch file="3lang/src/virtualmachine/VirtualMachine.cs" line="8" offsetX="318" offsetY="126" expression="env" liveUpdate="False" />
-  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.3lang>
     <MonoDevelop.Ide.CustomExecutionModes>
       <Data Name="Predefinito (Custom)" Id="d614d4d4-cb28-4e37-8a4e-0adc9e6123e1" ModeId="Default">

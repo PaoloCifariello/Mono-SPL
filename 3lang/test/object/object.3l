@@ -1,0 +1,12 @@
+var a = {};
+
+a.a = "Objects";
+a.b = {};
+
+a.b.a = "are too";
+a.b.b = {};
+
+a.b.b.a = "fun!";
+
+
+print(a.a + " " + a.b.a + " " + a.b.b.a);

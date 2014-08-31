@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace lang.lexer
 {
@@ -6,6 +7,14 @@ namespace lang.lexer
 	{
 		private TokenType type;
 		private string value;
+		List<string> accessKey;
+
+		public List<string> AccessKey
+		{
+			get {
+				return this.accessKey;
+			}
+		}
 
 		public int Length
 		{
@@ -63,6 +72,14 @@ namespace lang.lexer
 					//return 7;
 				case TokenType.FUNCTION:
 					return 8;
+				case TokenType.OBJECT_ACCESS:
+					{
+						int length = 0;
+						for (int i = 0; i < this.accessKey.Count; i++)
+							length += this.accessKey [i].Length + 1;
+
+						return length - 1;
+					}
 				}
 
 				return 0;
@@ -84,10 +101,22 @@ namespace lang.lexer
 			}
 		}
 
-		public Token (TokenType type, string value)
+		public Token(TokenType type)
 		{
 			this.type = type;
+		}
+
+		public Token (TokenType type, string value) : this(type)
+		{
 			this.value = value;
+		}
+
+		public Token (TokenType type, List<string> AccesKey) : this(type)
+		{
+			if (type != TokenType.OBJECT_ACCESS) 
+				throw new Exception ();
+
+			this.accessKey = AccesKey;
 		}
 
 		public override string ToString()
@@ -103,6 +132,8 @@ namespace lang.lexer
 
 
 	public enum TokenType {
+		OBJECT_ACCESS,
+
 		INTEGER,
 		DOUBLE,
 		ALPHANUMERIC,
@@ -148,6 +179,8 @@ namespace lang.lexer
 		R_BRACKET,		// ]
 		ASSIGN,			// =
 		EQUAL,			// ==
-		LINE_END		// \n
+		LINE_END,		// \n
+
+		END				// End of source code
 	};
 }

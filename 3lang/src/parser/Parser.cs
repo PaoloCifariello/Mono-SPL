@@ -3,6 +3,7 @@ using lang.lexer;
 using C5;
 using lang.structure;
 using lang.virtualmachine;
+using System.Collections.Generic;
 
 namespace lang.parser
 {
@@ -16,16 +17,18 @@ namespace lang.parser
 				if (this.tokens.Count > 0)
 					return this.tokens [0].Type;
 				else
-					throw new ParsingError ();
+					return TokenType.END;
+					//throw new ParsingError ();
 			}
 		}
 
 		private TokenType NextType {
 			get {
 				if (this.tokens.Count > 1)
-					return this.tokens[1].Type;
+					return this.tokens [1].Type;
 				else
-					throw new ParsingError ();
+					return TokenType.END;
+					//throw new ParsingError ();
 			}
 		}
 
@@ -39,6 +42,18 @@ namespace lang.parser
 				return this.tokens.RemoveAt (0);
 			else
 				return null;
+		}
+
+		private Token Pop(int n)
+		{
+			Token last = null;
+
+			for (int i = 0; i < n; i++) {
+				if ((last = this.Pop()) == null)
+					return null;
+			}
+
+			return last;
 		}
 
 		public Program Parse (ArrayList<Token> tokens)
@@ -68,16 +83,10 @@ namespace lang.parser
 
 		private Statement ParseStatement()
 		{
-			TokenType type = this.CurrentType;
-			if (type == TokenType.LINE_END) {
+			while (this.CurrentType == TokenType.LINE_END)
 				this.Pop ();
 
-				try {
-					type = this.CurrentType;
-				} catch (ParsingError) {
-					return null;
-				}
-			}
+			TokenType type = this.CurrentType;
 
 			if (type == TokenType.FUNCTION) {
 				this.Pop ();
@@ -95,7 +104,7 @@ namespace lang.parser
 				this.Pop ();
 				Statements st1 = this.ParseStatements ();
 
-				if (st1 == null || this.CurrentType != TokenType.R_BRACE)
+				if (this.CurrentType != TokenType.R_BRACE)
 					return null;
 
 				this.Pop ();
@@ -148,8 +157,12 @@ namespace lang.parser
 					Expression fun = this.ParseExpression ();
 					if (fun == null)
 						return null;
-					else 
+					else {
+						if (this.CurrentType != TokenType.SEMI)
+							return null;
+						this.Pop ();
 						return new Statement (StatementType.FUNCTION, fun);
+					}
 
 				}
 			}
@@ -183,7 +196,7 @@ namespace lang.parser
 
 				if (this.CurrentType == TokenType.SEMI) {
 					this.Pop ();
-					return new Assignment (word);
+					return new Assignment (word, false);
 				} else if (this.CurrentType == TokenType.ASSIGN) {
 					this.Pop ();
 					Expression exp = this.ParseExpression ();
@@ -192,7 +205,7 @@ namespace lang.parser
 						return null;
 
 					this.Pop ();
-					return new Assignment (word, exp);
+					return new Assignment (word, exp, false);
 				} else
 					return null;
 			} else if (this.CurrentType == TokenType.ALPHANUMERIC) {
@@ -209,7 +222,23 @@ namespace lang.parser
 					return null;
 
 				this.Pop ();
-				return new Assignment (word, exp);
+				return new Assignment (word, exp, true);
+			} else if (this.CurrentType == TokenType.OBJECT_ACCESS) {
+				List<string> accessor = this.Pop ().AccessKey;
+
+				if (this.CurrentType != TokenType.ASSIGN)
+					return null;
+
+				this.Pop ();
+
+				Expression exp = this.ParseExpression ();
+
+				if (exp == null || this.CurrentType != TokenType.SEMI)
+					return null;
+
+				this.Pop ();
+				return new Assignment (accessor, exp, true);
+
 			} else
 				return null;
 		}
@@ -262,9 +291,29 @@ namespace lang.parser
 				this.Pop ();
 				exp1 = new Expression (ExpressionType.STRING, str);
 				// Expression combination case
-			} else {
+			} else if (this.CurrentType == TokenType.L_BRACE && this.NextType == TokenType.R_BRACE) {
+				this.Pop (2);
+				return new Expression (ExpressionType.OBJECT);
+			} else if (this.CurrentType == TokenType.OBJECT_ACCESS) {
+				if (this.NextType != TokenType.L_PAREN)
+					exp1 = new Expression (ExpressionType.OBJECT_ACCESSOR, this.Pop ().AccessKey);
+				else {
+					List<string> accessor = this.Pop ().AccessKey;
+
+					if (this.CurrentType != TokenType.L_PAREN)
+						return null;
+
+					this.Pop ();
+					ArrayList<Expression> parameters = this.ParseFunctionParameters ();
+					exp1 = new Expression (ExpressionType.FUNCTION, accessor, parameters); 
+				}
+			} else if (this.CurrentType == TokenType.FUNCTION) {
+				this.Pop ();
+				Function fun = this.ParseFunction ();
+
+				exp1 = new Expression (ExpressionType.FUNCTION_DECLARATION, fun);
+			} else
 				return null;
-			}
 
 			if (Parser.IsExpressionOperator (this.CurrentType)) {
 				ExpressionType type = Parser.GetExpressionOperator (this.CurrentType);
@@ -280,10 +329,10 @@ namespace lang.parser
 
 		private Function ParseFunction ()
 		{
-			if (this.CurrentType != TokenType.ALPHANUMERIC)
-				return null;
+			string name = "";
 
-			string name = this.Pop ().Value;
+			if (this.CurrentType == TokenType.ALPHANUMERIC)
+				name = this.Pop ().Value;
 
 			if (this.CurrentType != TokenType.L_PAREN)
 				return null;
@@ -308,12 +357,22 @@ namespace lang.parser
 			this.Pop ();
 
 			Statements st = this.ParseStatements ();
+			Expression returnValue = null;
+
+			if (this.CurrentType == TokenType.RETURN) {
+				this.Pop ();
+				returnValue = this.ParseExpression ();
+				if (this.CurrentType != TokenType.SEMI)
+					return null;
+
+				this.Pop ();
+			}
 
 			if (this.CurrentType != TokenType.R_BRACE)
 				return null;
 
 			this.Pop ();
-			return new Function (name, st, parameters);
+			return new Function (name, st, parameters, returnValue);
 		}
 
 		ArrayList<Expression> ParseFunctionParameters ()

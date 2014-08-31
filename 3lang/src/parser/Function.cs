@@ -11,7 +11,8 @@ namespace lang.parser
 		private string Name;
 		private ArrayList<string> Parameters;
 		private Statements innerStatements;
-
+		private Expression returnValue;
+	
 		public string Identifier {
 			get {
 				return this.Name;
@@ -30,11 +31,18 @@ namespace lang.parser
 			}
 		}
 
-		public Function(string name, Statements inner, ArrayList<string> parameters)
+		public Expression ReturnValue {
+			get {
+				return this.returnValue;
+			}
+		}
+
+		public Function(string name, Statements inner, ArrayList<string> parameters, Expression returnValue)
 		{
 			this.Name = name;
 			this.Parameters = parameters;
 			this.innerStatements = inner;
+			this.returnValue = returnValue;
 		}
 	}	
 }
