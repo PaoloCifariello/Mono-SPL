@@ -1,5 +1,3 @@
-#undef LINE_END_ACTIVED
-
 using System;
 using lang.lexer;
 using lang.parser;

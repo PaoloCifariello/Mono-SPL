@@ -95,7 +95,21 @@ namespace lang.virtualmachine
 
 		public ExpressionValue ExecuteFunction(Expression fun)
 		{
-			Function f = this.env.Get (fun.FunctionName) as Function;
+			Function f = null;
+
+			if (fun.AccessKey == null)
+				f = this.env.Get (fun.FunctionName) as Function;
+			else {
+				List<string> accessor = fun.AccessKey;
+
+				ExpressionValue obj = this.env.Get (accessor [0]) as ExpressionValue;
+
+				for (int i = 1; i < accessor.Count; i++)
+					obj = obj.GetProperty (accessor [i]);
+
+				f = obj.Function;
+			}
+
 
 			if (f == null)
 				return null;

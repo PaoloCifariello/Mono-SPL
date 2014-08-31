@@ -1,0 +1,9 @@
+var M = {};
+
+M.one = 1;
+
+M.inc = function(p) {
+	return p + 1;
+};
+
+print( M.inc( M.one ) );

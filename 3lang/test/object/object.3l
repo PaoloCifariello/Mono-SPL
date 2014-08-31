@@ -8,4 +8,5 @@ a.b.b = {};
 
 a.b.b.a = "fun!";
 
+
 print(a.a + " " + a.b.a + " " + a.b.b.a);

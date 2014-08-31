@@ -295,7 +295,23 @@ namespace lang.parser
 				this.Pop (2);
 				return new Expression (ExpressionType.OBJECT);
 			} else if (this.CurrentType == TokenType.OBJECT_ACCESS) {
-				exp1 = new Expression (ExpressionType.OBJECT_ACCESSOR, this.Pop ().AccessKey);
+				if (this.NextType != TokenType.L_PAREN)
+					exp1 = new Expression (ExpressionType.OBJECT_ACCESSOR, this.Pop ().AccessKey);
+				else {
+					List<string> accessor = this.Pop ().AccessKey;
+
+					if (this.CurrentType != TokenType.L_PAREN)
+						return null;
+
+					this.Pop ();
+					ArrayList<Expression> parameters = this.ParseFunctionParameters ();
+					exp1 = new Expression (ExpressionType.FUNCTION, accessor, parameters); 
+				}
+			} else if (this.CurrentType == TokenType.FUNCTION) {
+				this.Pop ();
+				Function fun = this.ParseFunction ();
+
+				exp1 = new Expression (ExpressionType.FUNCTION_DECLARATION, fun);
 			} else
 				return null;
 
@@ -313,10 +329,10 @@ namespace lang.parser
 
 		private Function ParseFunction ()
 		{
-			if (this.CurrentType != TokenType.ALPHANUMERIC)
-				return null;
+			string name = "";
 
-			string name = this.Pop ().Value;
+			if (this.CurrentType == TokenType.ALPHANUMERIC)
+				name = this.Pop ().Value;
 
 			if (this.CurrentType != TokenType.L_PAREN)
 				return null;

@@ -23,6 +23,10 @@ namespace lang.virtualmachine
 				{
 					return Evaluator.vm.ExecuteFunction (exp);
 				}
+			case (ExpressionType.FUNCTION_DECLARATION):
+				{
+					return new ExpressionValue (ExpressionValueType.FUNCTION, exp.Function);
+				}
 			case (ExpressionType.OBJECT):
 				{
 					return new ExpressionValue (ExpressionValueType.OBJECT);
