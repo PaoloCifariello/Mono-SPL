@@ -110,10 +110,6 @@ namespace lang.lexer
 				this.CurrentLine = this.source.getLine ();
 
 				while (this.AddNextToken());
-
-				tokens.Push (
-					new Token (TokenType.LINE_END)
-					);
 			}
 		}
 

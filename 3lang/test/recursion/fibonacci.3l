@@ -1,10 +1,14 @@
 var n = 20;
 
 function fib(n) {
-var r = 1;
-if (n > 2) {
-r = fib(n - 1) + fib(n - 2); }
-return r; }
+	var r = 1;
+
+	if (n > 2) {
+		r = fib(n - 1) + fib(n - 2);
+	}
+
+	return r; 
+}
 
 var c = fib(n);
 var s = "" + n;
