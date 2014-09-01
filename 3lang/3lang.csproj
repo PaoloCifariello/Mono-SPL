@@ -67,6 +67,7 @@
     <Folder Include="src\virtualmachine\" />
     <Folder Include="test\" />
     <Folder Include="test\object\" />
+    <Folder Include="test\require\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar" />
@@ -76,5 +77,7 @@
     <None Include="test\recursion\factorial.3l" />
     <None Include="test\object\object.3l" />
     <None Include="test\object\function.3l" />
+    <None Include="test\require\required.3l" />
+    <None Include="test\require\require.3l" />
   </ItemGroup>
 </Project>

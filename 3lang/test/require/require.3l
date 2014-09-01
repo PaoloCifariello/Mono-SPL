@@ -1,0 +1,5 @@
+var a = require("./required.3l");
+var b = 3;
+
+b = a.inc(b);
+a.stamp(b);

@@ -1,19 +1,25 @@
 using System;
 using lang.parser;
 using System.Collections.Generic;
+using lang.interpreter;
 
 namespace lang.virtualmachine
 {
 	public class VirtualMachine
 	{
 		private Environment env;
+		private Evaluator evaluator;
+
+		public Environment Environment {
+			get {
+				return this.env;
+			}
+		}
 
 		public VirtualMachine ()
 		{
 			this.env = new Environment ();
-			Evaluator.Init (this);
-
-			this.AddSystemFunctions ();
+			this.evaluator = new Evaluator (this);
 		}
 
 		public void Execute (Program program)
@@ -47,14 +53,14 @@ namespace lang.virtualmachine
 				}
 			case StatementType.IF_THEN:
 				{
-					ExpressionValue value = Evaluator.Evaluate (statement.ConditionExpression, this.env);
+					ExpressionValue value = this.evaluator.Evaluate (statement.ConditionExpression, this.env);
 					if (value.Bool == true)
 						this.ExecuteStatements (statement.Statement1);
 					break;		
 				}
 			case StatementType.IF_THEN_ELSE:
 				{
-				ExpressionValue value = Evaluator.Evaluate (statement.ConditionExpression, this.env);
+				ExpressionValue value = this.evaluator.Evaluate (statement.ConditionExpression, this.env);
 					if (value.Bool == true)
 						this.ExecuteStatements (statement.Statement1);
 					else
@@ -63,7 +69,7 @@ namespace lang.virtualmachine
 				}
 			case StatementType.WHILE:
 				{
-				ExpressionValue value = Evaluator.Evaluate (statement.ConditionExpression, this.env);
+				ExpressionValue value = this.evaluator.Evaluate (statement.ConditionExpression, this.env);
 					if (value.Bool == true) {
 						Statements st = new Statements ();
 						st.AddStatement (statement.Statement1);
@@ -111,24 +117,24 @@ namespace lang.virtualmachine
 			}
 
 
-			if (f == null)
-				return null;
-
-			if (this.IsSystemFunction (fun.FunctionName)) {
-				this.ExecuteSystemFunction (fun);
-				return null;
+			if (f == null) {
+				if (this.IsSystemFunction (fun.FunctionName)) {
+					return this.ExecuteSystemFunction (fun);
+				} else
+					return null;
 			}
+
 
 			this.env.PushEnvironment ();
 			for (int i = 0; i < fun.Parameters.Count; i++) {
 				this.env.Declcare (
 					f.ParametersNames [i], 
-					Evaluator.Evaluate (fun.Parameters [i], this.env)
+					this.evaluator.Evaluate (fun.Parameters [i], this.env)
 				);
 			}
 
 			this.ExecuteStatements (f.InnerStatements);
-			ExpressionValue ev = Evaluator.Evaluate (f.ReturnValue, this.env);
+			ExpressionValue ev = this.evaluator.Evaluate (f.ReturnValue, this.env);
 
 			this.env.PopEnvironment ();
 			return ev;
@@ -140,12 +146,12 @@ namespace lang.virtualmachine
 				if (assignment.IsGlobal)
 					this.env.Modify (
 						assignment.Variable, 
-						Evaluator.Evaluate (assignment.Value, this.env)
+						this.evaluator.Evaluate (assignment.Value, this.env)
 					);
 				else
 					this.env.Declcare (
 						assignment.Variable, 
-						Evaluator.Evaluate (assignment.Value, this.env)
+						this.evaluator.Evaluate (assignment.Value, this.env)
 					);
 			} else {
 				List<string> accessor = assignment.AccesKey;
@@ -157,26 +163,21 @@ namespace lang.virtualmachine
 
 				MainObject.SetProperty (
 					accessor [accessor.Count - 1], 
-					Evaluator.Evaluate (assignment.Value, env)
+					this.evaluator.Evaluate (assignment.Value, env)
 				);
 			}
 		}
 
-		void AddSystemFunctions ()
-		{
-			this.env.Modify("print", new Function("print", new Statements(), null, null));
-		}
-
 		bool IsSystemFunction (string functionName)
 		{
-			return (functionName == "print");
+			return (functionName == "print") || (functionName == "require");
 		}
 
-		void ExecuteSystemFunction (Expression fun)
+		private ExpressionValue ExecuteSystemFunction (Expression fun)
 		{
-			
+			// Print function
 			if (fun.FunctionName == "print") {
-				ExpressionValue val = Evaluator.Evaluate (fun.Parameters [0], this.env);
+				ExpressionValue val = this.evaluator.Evaluate (fun.Parameters [0], this.env);
 				if (val.IsInt)
 					Console.WriteLine (val.Number);
 				else if (val.IsBool)
@@ -189,7 +190,23 @@ namespace lang.virtualmachine
 					Console.WriteLine ("Object");
 				else 
 					Console.WriteLine ("undefined");
-			}
+
+				return null;
+				// Require function
+			} else if (fun.FunctionName == "require") {
+				if (fun.Parameters.Count != 1)
+					return null;
+
+				ExpressionValue fileName = this.evaluator.Evaluate (fun.Parameters [0], this.env);
+
+				if (!fileName.IsString)
+					return null;
+
+				Interpreter i = Interpreter.FromFile (fileName.String);
+				ExpressionValue v =  i.RunAsModule ();
+				return v;
+			} else
+				return null;
 		}
 	}
 }

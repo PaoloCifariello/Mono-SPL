@@ -3,6 +3,7 @@ using lang.lexer;
 using lang.parser;
 using lang.structure;
 using lang.virtualmachine;
+using System.IO;
 
 namespace lang.interpreter
 {
@@ -30,6 +31,11 @@ namespace lang.interpreter
 
 		public static Interpreter FromFile(string path)
 		{
+			Directory.SetCurrentDirectory (
+				Directory.GetCurrentDirectory () + 
+				"/" + 
+				path.Substring (0, path.LastIndexOf ('/'))
+			);
 			return new Interpreter (Lexer.FromFile (path));
 		}
 
@@ -43,8 +49,20 @@ namespace lang.interpreter
 				Console.WriteLine ("Parsing error");
 
 			this.vm.Execute (program);
+		}
 
+		public ExpressionValue RunAsModule ()
+		{
+			this.lexer.Tokenize ();
+			//this.lexer.PrintToken ();
 
+			Program program = this.parser.Parse (this.lexer.Tokens);
+			if (program == null)
+				Console.WriteLine ("Parsing error");
+
+			this.vm.Environment.Modify ("exports", new ExpressionValue (ExpressionValueType.OBJECT));
+			this.vm.Execute (program);
+			return this.vm.Environment.Get ("exports") as ExpressionValue;
 		}
 	}
 }

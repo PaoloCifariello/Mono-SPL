@@ -1,0 +1,11 @@
+exports.inc = function(i) {
+	return i + 1;
+};
+
+exports.dec = function(i) {
+	return i - 1;
+};
+
+exports.stamp = function(i) {
+	print(i);
+};
