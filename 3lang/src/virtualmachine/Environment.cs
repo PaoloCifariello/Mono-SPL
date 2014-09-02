@@ -79,6 +79,11 @@ namespace lang.virtualmachine
 					return value;
 			}
 
+			if (variable == "this") {
+
+
+			}
+
 			return null;
 		}
 	}

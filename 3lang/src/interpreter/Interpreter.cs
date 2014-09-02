@@ -12,6 +12,7 @@ namespace lang.interpreter
 		private Lexer lexer;
 		private Parser parser;
 		private VirtualMachine vm;
+		private Program program;
 
 		private Interpreter()
 		{
@@ -39,16 +40,18 @@ namespace lang.interpreter
 			return new Interpreter (Lexer.FromFile (path));
 		}
 
-		public void Run()
+		public void Init()
 		{
 			this.lexer.Tokenize ();
-			//this.lexer.PrintToken ();
+			this.program = this.parser.Parse (this.lexer.Tokens);
 
-			Program program = this.parser.Parse (this.lexer.Tokens);
-			if (program == null)
+			if (this.program == null)
 				Console.WriteLine ("Parsing error");
+		}
 
-			this.vm.Execute (program);
+		public void Run()
+		{
+			this.vm.Execute (this.program);
 		}
 
 		public ExpressionValue RunAsModule ()

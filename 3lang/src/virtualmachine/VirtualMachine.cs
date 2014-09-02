@@ -102,16 +102,20 @@ namespace lang.virtualmachine
 		public ExpressionValue ExecuteFunction(Expression fun)
 		{
 			Function f = null;
+			ExpressionValue obj = null;
+			ExpressionValue last = null;
 
 			if (fun.AccessKey == null)
 				f = this.env.Get (fun.FunctionName) as Function;
 			else {
 				List<string> accessor = fun.AccessKey;
 
-				ExpressionValue obj = this.env.Get (accessor [0]) as ExpressionValue;
+				obj = last = this.env.Get (accessor [0]) as ExpressionValue;
 
-				for (int i = 1; i < accessor.Count; i++)
+				for (int i = 1; i < accessor.Count; i++) {
+					last = obj;
 					obj = obj.GetProperty (accessor [i]);
+				}
 
 				f = obj.Function;
 			}
@@ -132,6 +136,10 @@ namespace lang.virtualmachine
 					this.evaluator.Evaluate (fun.Parameters [i], this.env)
 				);
 			}
+
+
+			if (obj != null)
+				this.env.Declcare ("this", last);
 
 			this.ExecuteStatements (f.InnerStatements);
 			ExpressionValue ev = this.evaluator.Evaluate (f.ReturnValue, this.env);
@@ -203,6 +211,7 @@ namespace lang.virtualmachine
 					return null;
 
 				Interpreter i = Interpreter.FromFile (fileName.String);
+				i.Init ();
 				ExpressionValue v =  i.RunAsModule ();
 				return v;
 			} else

@@ -25,6 +25,7 @@ namespace lang
 				Console.WriteLine ("Executing test: " + name);
 
 				Interpreter interp = Interpreter.FromFile (tests[i]);
+				interp.Init ();
 				Stopwatch sw = Stopwatch.StartNew();
 				interp.Run ();
 				sw.Stop ();
