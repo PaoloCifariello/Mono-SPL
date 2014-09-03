@@ -56,15 +56,8 @@ namespace lang.interpreter
 
 		public ExpressionValue RunAsModule ()
 		{
-			this.lexer.Tokenize ();
-			//this.lexer.PrintToken ();
-
-			Program program = this.parser.Parse (this.lexer.Tokens);
-			if (program == null)
-				Console.WriteLine ("Parsing error");
-
 			this.vm.Environment.Modify ("exports", new ExpressionValue (ExpressionValueType.OBJECT));
-			this.vm.Execute (program);
+			this.vm.Execute (this.program);
 			return this.vm.Environment.Get ("exports") as ExpressionValue;
 		}
 	}

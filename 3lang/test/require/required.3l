@@ -1,4 +1,4 @@
-exports.inc = function(i) {
+exports.inc = function() {
 	this.val = this.val + 1;
 	return this.val;
 };
