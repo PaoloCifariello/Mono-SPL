@@ -1,0 +1,10 @@
+var a = require("./required.3l");
+
+var i = 1000;
+
+while (i > 0) {
+	a.dec();
+	i = i - 1;
+}
+
+a.stamp();

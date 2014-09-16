@@ -39,7 +39,7 @@ namespace lang.lexer
 
 		public string getLine()
 		{
-			return (this.lines.Length >= this.line_counter) ? 
+			return (this.lines.Length > this.line_counter) ? 
 				this.lines [this.line_counter++] : 
 					null;
 		}

@@ -1,0 +1,15 @@
+exports.inc = function() {
+	this.val = this.val + 1;
+	return this.val;
+};
+
+exports.dec = function() {
+	this.val = this.val - 1;
+	return this.val;
+};
+
+exports.stamp = function() {
+	print(this.val);
+};
+
+exports.val = 0;

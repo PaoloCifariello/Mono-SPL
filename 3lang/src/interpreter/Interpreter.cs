@@ -3,6 +3,7 @@ using lang.lexer;
 using lang.parser;
 using lang.structure;
 using lang.virtualmachine;
+using System.IO;
 
 namespace lang.interpreter
 {
@@ -11,6 +12,7 @@ namespace lang.interpreter
 		private Lexer lexer;
 		private Parser parser;
 		private VirtualMachine vm;
+		private Program program;
 
 		private Interpreter()
 		{
@@ -30,21 +32,33 @@ namespace lang.interpreter
 
 		public static Interpreter FromFile(string path)
 		{
+			Directory.SetCurrentDirectory (
+				Directory.GetCurrentDirectory () + 
+				"/" + 
+				path.Substring (0, path.LastIndexOf ('/'))
+			);
 			return new Interpreter (Lexer.FromFile (path));
+		}
+
+		public void Init()
+		{
+			this.lexer.Tokenize ();
+			this.program = this.parser.Parse (this.lexer.Tokens);
+
+			if (this.program == null)
+				Console.WriteLine ("Parsing error");
 		}
 
 		public void Run()
 		{
-			this.lexer.Tokenize ();
-			//this.lexer.PrintToken ();
+			this.vm.Execute (this.program);
+		}
 
-			Program program = this.parser.Parse (this.lexer.Tokens);
-			if (program == null)
-				Console.WriteLine ("Parsing error");
-
-			this.vm.Execute (program);
-
-
+		public ExpressionValue RunAsModule ()
+		{
+			this.vm.Environment.Modify ("exports", new ExpressionValue (ExpressionValueType.OBJECT));
+			this.vm.Execute (this.program);
+			return this.vm.Environment.Get ("exports") as ExpressionValue;
 		}
 	}
 }

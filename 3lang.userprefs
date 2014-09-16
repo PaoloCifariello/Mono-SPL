@@ -1,21 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/virtualmachine/Environment.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/Program.cs">
     <Files>
-      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="37" Column="2" />
-      <File FileName="3lang/src/parser/Parser.cs" Line="299" Column="26" />
-      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="25" Column="1" />
-      <File FileName="3lang/src/parser/Expression.cs" Line="115" Column="4" />
-      <File FileName="3lang/src/virtualmachine/Evaluator.cs" Line="28" Column="78" />
-      <File FileName="3lang/test/object/object.3l" Line="2" Column="1" />
-      <File FileName="3lang/src/Program.cs" Line="13" Column="7" />
-      <File FileName="3lang/test/object/function.3l" Line="5" Column="3" />
-      <File FileName="3lang/src/parser/Program.cs" Line="28" Column="1" />
-      <File FileName="3lang/src/parser/Statements.cs" Line="28" Column="1" />
-      <File FileName="3lang/src/parser/Assignment.cs" Line="65" Column="1" />
-      <File FileName="3lang/src/parser/Statement.cs" Line="95" Column="1" />
-      <File FileName="3lang/src/parser/Function.cs" Line="46" Column="1" />
-      <File FileName="3lang/src/virtualmachine/Environment.cs" Line="78" Column="1" />
+      <File FileName="3lang/test/require/required.3l" Line="1" Column="1" />
+      <File FileName="3lang/test/require/require.3l" Line="1" Column="1" />
+      <File FileName="3lang/src/virtualmachine/ExpressionValue.cs" Line="1" Column="1" />
+      <File FileName="3lang/src/Program.cs" Line="18" Column="5" />
+      <File FileName="3lang/src/lexer/Source.cs" Line="1" Column="1" />
+      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="60" Column="26" />
+      <File FileName="3lang/src/lexer/Lexer.cs" Line="110" Column="1" />
+      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="215" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

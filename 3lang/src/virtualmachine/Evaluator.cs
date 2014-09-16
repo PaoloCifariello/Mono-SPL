@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 namespace lang.virtualmachine
 {
-	public static class Evaluator
+	public class Evaluator
 	{
-		private static VirtualMachine vm;
+		private VirtualMachine vm;
 
-		public static void Init(VirtualMachine vm)
+		public Evaluator(VirtualMachine vm)
 		{
-			Evaluator.vm = vm;
+			this.vm = vm;
 		}
 
-		public static ExpressionValue Evaluate (Expression exp, Environment env)
+		public ExpressionValue Evaluate (Expression exp, Environment env)
 		{
 			if (exp == null)
 				return new ExpressionValue (ExpressionValueType.BOOLEAN, false);
@@ -21,7 +21,7 @@ namespace lang.virtualmachine
 			switch (exp.Type) {
 			case (ExpressionType.FUNCTION):
 				{
-					return Evaluator.vm.ExecuteFunction (exp);
+					return this.vm.ExecuteFunction (exp);
 				}
 			case (ExpressionType.FUNCTION_DECLARATION):
 				{
@@ -60,8 +60,8 @@ namespace lang.virtualmachine
 				}
 			case (ExpressionType.PLUS):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					if (v1.IsString)
 						return new ExpressionValue (ExpressionValueType.STRING, v1.String + v2.String);
@@ -71,45 +71,45 @@ namespace lang.virtualmachine
 
 			case (ExpressionType.MINUS):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.NUMBER, v1.Number - v2.Number);
 				}
 
 			case (ExpressionType.TIMES):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.NUMBER, v1.Number * v2.Number);
 				}
 			case (ExpressionType.AND):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, v1.Bool && v2.Bool);
 				}
 			case (ExpressionType.OR):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, v1.Bool || v2.Bool);
 				}
 			case (ExpressionType.EQUAL):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, 
 					                            (v1.Bool == v2.Bool) && (v1.Number == v2.Number) && (v1.String == v2.String));
 				}
 			case (ExpressionType.DISEQUAL):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, 
 					                            (v1.Bool != v2.Bool) && (v1.Number != v2.Number) && (v1.String != v2.String));
@@ -117,32 +117,32 @@ namespace lang.virtualmachine
 				
 			case (ExpressionType.LESS):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.BOOLEAN, v1.Number < v2.Number);
 				}
 				
 			case (ExpressionType.GREATER):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.NUMBER, v1.Number > v2.Number);
 				}
 				
 			case (ExpressionType.LESS_OR_EQUAL):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.NUMBER, v1.Number <= v2.Number);
 				}
 				
 			case (ExpressionType.GREATER_OR_EQUAL):
 				{
-					ExpressionValue v1 = Evaluator.Evaluate (exp.Expression1, env);
-					ExpressionValue v2 = Evaluator.Evaluate (exp.Expression2, env);
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
 
 					return new ExpressionValue (ExpressionValueType.NUMBER, v1.Number >= v2.Number);
 				}
