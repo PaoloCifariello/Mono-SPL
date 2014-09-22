@@ -9,7 +9,7 @@ namespace lang
 		public static void Main (string[] args)
 		{
 			string[] tests = {
-				"../../test/sum/sum.3l",
+				"../../test/math/math.3l",
 				"../../test/object/object.3l",
 				"../../test/object/function.3l",
 				"../../test/print/print.3l",

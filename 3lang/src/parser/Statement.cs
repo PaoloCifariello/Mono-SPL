@@ -14,7 +14,9 @@ namespace lang.parser
 		IF_THEN,
 		IF_THEN_ELSE,
 		WHILE,
-		ASSIGN
+		ASSIGN,
+
+		RETURN
 	};
 
 	public class Statement
@@ -26,6 +28,7 @@ namespace lang.parser
 		private Assignment assignment;
 		private Expression function;
 		private Function functionDeclaration;
+		private Expression returnValue;
 
 		public StatementType Type {
 			get {
@@ -71,6 +74,12 @@ namespace lang.parser
 			}
 		}
 
+		public Expression ReturnValue {
+			get {
+				return this.returnValue;
+			}
+		}
+
 		private Statement (StatementType type)
 		{
 			this.type = type;
@@ -79,7 +88,10 @@ namespace lang.parser
 		// Function
 		public Statement(StatementType type, Expression fun) : this(type)
 		{
-			this.function = fun;
+			if (type == StatementType.RETURN)
+				this.returnValue = fun;
+			else
+				this.function = fun;
 		}
 
 		// If then else

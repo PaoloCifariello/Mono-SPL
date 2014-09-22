@@ -128,7 +128,7 @@ namespace lang.parser
 				} else 
 					return new Statement (StatementType.IF_THEN, cnd, st1);
 
-			// while
+				// while
 			} else if (type == TokenType.WHILE) {
 				this.Pop ();
 				Condition cnd = this.ParseCondition ();
@@ -145,6 +145,17 @@ namespace lang.parser
 
 				return new Statement (StatementType.WHILE, cnd, st);
 
+			} else if (type == TokenType.RETURN) {
+				this.Pop ();
+
+				Expression returnValue = this.ParseExpression ();
+
+				if (this.CurrentType != TokenType.SEMI)
+					return null;
+
+				this.Pop ();
+				return new Statement (StatementType.RETURN, returnValue);
+			
 			// var, alphanumeric or alphanumeric ()
 			} else {
 				if (this.NextType != TokenType.L_PAREN) {

@@ -1,14 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/test/require/require.3l">
+  <MonoDevelop.Ide.Workbench ActiveDocument="3lang/src/virtualmachine/VirtualMachine.cs">
     <Files>
-      <File FileName="3lang/src/virtualmachine/ExpressionValue.cs" Line="1" Column="1" />
-      <File FileName="3lang/src/Program.cs" Line="29" Column="36" />
-      <File FileName="3lang/src/lexer/Source.cs" Line="33" Column="3" />
-      <File FileName="3lang/src/interpreter/Interpreter.cs" Line="42" Column="29" />
-      <File FileName="3lang/src/lexer/Lexer.cs" Line="1" Column="1" />
-      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="1" Column="1" />
-      <File FileName="3lang/test/require/require.3l" Line="1" Column="18" />
+      <File FileName="3lang/src/parser/Parser.cs" Line="245" Column="1" />
+      <File FileName="3lang/src/virtualmachine/VirtualMachine.cs" Line="154" Column="68" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
