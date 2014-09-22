@@ -32,11 +32,25 @@ namespace lang.interpreter
 
 		public static Interpreter FromFile(string path)
 		{
-			Directory.SetCurrentDirectory (
-				Directory.GetCurrentDirectory () + 
-				"/" + 
-				path.Substring (0, path.LastIndexOf ('/'))
-			);
+			int fIdx = path.IndexOf ('/'),
+				lIdx = path.LastIndexOf ('/');
+
+			string dirPath;
+
+			// Case path is '/a/b/.././file'
+			if (fIdx == 0) {
+				dirPath = path.Substring (0, lIdx);
+				path = path.Substring (lIdx + 1);
+			// Case path is './a/b/file' or 'a/b/file'
+			} else if (lIdx != -1) {
+				dirPath = Directory.GetCurrentDirectory () + "/" + path.Substring (0, lIdx);
+				path = path.Substring (lIdx + 1);
+			// Case path is 'file'
+			} else {
+				dirPath = Directory.GetCurrentDirectory ();
+			}
+
+			Directory.SetCurrentDirectory (dirPath);
 			return new Interpreter (Lexer.FromFile (path));
 		}
 
