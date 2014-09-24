@@ -48,15 +48,15 @@ namespace lang.virtualmachine
 				}
 			case (ExpressionType.BOOL):
 				{
-					return new ExpressionValue (ExpressionValueType.BOOLEAN, Evaluator.ToBool (exp.Value));
+					return exp.EvaluatedValue;
 				}
 			case (ExpressionType.STRING):
 				{
-					return new ExpressionValue (ExpressionValueType.STRING, exp.Value);
+					return exp.EvaluatedValue;
 				}
 			case (ExpressionType.INTEGER):
 				{
-					return new ExpressionValue (ExpressionValueType.NUMBER, Evaluator.ToInt (exp.Value));
+					return exp.EvaluatedValue;
 				}
 			case (ExpressionType.PLUS):
 				{

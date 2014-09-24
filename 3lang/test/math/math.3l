@@ -10,7 +10,7 @@ Math.sub = function(a,b) {
 
 Math.pow = function(a,n) {
 	if (n < 0) {
-		return 0;
+		return -1;
 	}
 	
 	var res = 1;
