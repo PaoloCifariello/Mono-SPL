@@ -265,7 +265,7 @@ namespace lang.parser
 					return null;
 
 				this.Pop ();
-				// Identifier case
+			// Identifier case
 			} else if (this.CurrentType == TokenType.ALPHANUMERIC) {
 				Token id = this.Pop ();
 				if (this.CurrentType == TokenType.L_PAREN) {
@@ -445,6 +445,8 @@ namespace lang.parser
 				return ExpressionType.MINUS;
 			case (TokenType.TIMES):
 				return ExpressionType.TIMES;
+			case (TokenType.SLASH):
+				return ExpressionType.DIVISION;
 			case (TokenType.AND):
 				return ExpressionType.AND;
 			case (TokenType.OR):

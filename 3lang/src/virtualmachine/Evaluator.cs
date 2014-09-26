@@ -84,6 +84,13 @@ namespace lang.virtualmachine
 
 					return new ExpressionValue (ExpressionValueType.NUMBER, v1.Number * v2.Number);
 				}
+			case (ExpressionType.DIVISION):
+				{
+					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);
+					ExpressionValue v2 = this.Evaluate (exp.Expression2, env);
+
+					return new ExpressionValue (ExpressionValueType.NUMBER, v1.Number / v2.Number);
+				}
 			case (ExpressionType.AND):
 				{
 					ExpressionValue v1 = this.Evaluate (exp.Expression1, env);

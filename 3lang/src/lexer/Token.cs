@@ -27,6 +27,7 @@ namespace lang.lexer
 				case TokenType.MINUS:
 				case TokenType.TIMES:
 				case TokenType.DOT:
+				case TokenType.SLASH:
 				case TokenType.COLON:
 				case TokenType.PERCENT:
 				case TokenType.QUESTION:
@@ -51,6 +52,7 @@ namespace lang.lexer
 				case TokenType.OR:
 				case TokenType.DISEQUAL:
 				case TokenType.AND:
+				case TokenType.COMMENT:
 					return 2;
 				//case TokenType.INT:
 				case TokenType.DECLARE:
@@ -132,6 +134,10 @@ namespace lang.lexer
 
 
 	public enum TokenType {
+		SLASH,
+
+		COMMENT,
+
 		OBJECT_ACCESS,
 
 		INTEGER,

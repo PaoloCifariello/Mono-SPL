@@ -15,7 +15,7 @@ namespace lang
 				"../../test/print/print.3l",
 				"../../test/recursion/factorial.3l",
 				"../../test/recursion/fibonacci.3l",
-				"../../test/require/require.3l",
+				"../../test/require/require.3l"
 			};
 
 			for ( int i = 0; i < tests.Length; i++) {

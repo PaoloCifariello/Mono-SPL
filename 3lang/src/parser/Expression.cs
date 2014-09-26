@@ -25,6 +25,8 @@ namespace lang.parser
 		PLUS,
 		MINUS,
 		TIMES,
+		DIVISION,
+
 		AND,
 		OR,
 		DISEQUAL,

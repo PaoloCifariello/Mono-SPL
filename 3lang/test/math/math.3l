@@ -9,19 +9,21 @@ Math.sub = function(a,b) {
 };
 
 Math.pow = function(a,n) {
+	var res;
+	
 	if (n < 0) {
-		return -1;
-	}
-	
-	var res = 1;
-	
-	while (n > 0) {
-		res = res * a;
-		n = n - 1;
+		res = 1/Math.pow(a,-1*n);
+	} else {
+		var res = 1;
+		
+		while (n > 0) {
+			res = res * a;
+			n = n - 1;
+		}
 	}
 	
 	return res;
 };
 
-var b = Math.pow(3, 3);
+var b = Math.pow(1, -1);
 print("Result: " + b);
