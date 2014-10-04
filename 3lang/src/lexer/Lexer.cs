@@ -50,7 +50,9 @@ namespace lang.lexer
 
 			Token CurrentToken = this.matcher.Match (CurrentLine);
 
-			if (CurrentToken == null)
+			// In case of Inline comment, just skip current line at lexing time
+			if (CurrentToken == null || 
+			    CurrentToken.Type == TokenType.INLINE_COMMENT)
 				return false;
 
 			tokens.Push (CurrentToken);

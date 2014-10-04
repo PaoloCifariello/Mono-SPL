@@ -52,7 +52,7 @@ namespace lang.lexer
 				case TokenType.OR:
 				case TokenType.DISEQUAL:
 				case TokenType.AND:
-				case TokenType.COMMENT:
+				case TokenType.INLINE_COMMENT:
 					return 2;
 				//case TokenType.INT:
 				case TokenType.DECLARE:
@@ -136,7 +136,7 @@ namespace lang.lexer
 	public enum TokenType {
 		SLASH,
 
-		COMMENT,
+		INLINE_COMMENT,
 
 		OBJECT_ACCESS,
 

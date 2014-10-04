@@ -2,7 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="3lang/test/math/math.3l">
     <Files>
-      <File FileName="3lang/test/math/math.3l" Line="28" Column="19" />
+      <File FileName="3lang/test/math/math.3l" Line="11" Column="23" />
+      <File FileName="3lang/test/require/require.3l" Line="1" Column="1" />
+      <File FileName="3lang/test/require/required.3l" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
