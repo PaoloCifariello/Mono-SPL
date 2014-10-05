@@ -53,6 +53,8 @@ namespace lang.lexer
 				case TokenType.DISEQUAL:
 				case TokenType.AND:
 				case TokenType.INLINE_COMMENT:
+				case TokenType.MULTILINE_COMMENT_START:
+				case TokenType.MULTILINE_COMMENT_END:
 					return 2;
 				//case TokenType.INT:
 				case TokenType.DECLARE:
@@ -136,7 +138,9 @@ namespace lang.lexer
 	public enum TokenType {
 		SLASH,
 
-		INLINE_COMMENT,
+		INLINE_COMMENT,				// //
+		MULTILINE_COMMENT_START,	// /*
+		MULTILINE_COMMENT_END,		// */
 
 		OBJECT_ACCESS,
 

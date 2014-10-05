@@ -9,6 +9,7 @@ namespace lang.lexer
 		private Source source;
 		private ArrayList<Token> tokens;
 		private Matcher matcher;
+		private Token lastToken;
 
 		private string CurrentLine;
 
@@ -23,6 +24,7 @@ namespace lang.lexer
 		{
 			this.tokens = new ArrayList<Token> ();
 			this.matcher = new Matcher ();
+			this.lastToken = null;
 		}
 
 		private Lexer(Source src) : this()
@@ -41,6 +43,19 @@ namespace lang.lexer
 			return new Lexer (src);
 		}
 
+		private Token GetNextToken()
+		{
+			Token CurrentToken = this.matcher.Match (CurrentLine);
+
+			if (CurrentToken == null)
+				return null;
+
+			int length = CurrentToken.Length;
+			this.CurrentLine = this.CurrentLine.Substring (length);
+
+			return CurrentToken;
+		}
+
 		private bool AddNextToken()
 		{
 			this.SkipEmptyChar ();
@@ -48,16 +63,26 @@ namespace lang.lexer
 			if (this.CurrentLine.Length == 0)
 				return false;
 
-			Token CurrentToken = this.matcher.Match (CurrentLine);
+			Token CurrentToken = this.GetNextToken ();
 
-			// In case of Inline comment, just skip current line at lexing time
-			if (CurrentToken == null || 
-			    CurrentToken.Type == TokenType.INLINE_COMMENT)
+			if (CurrentToken == null)
 				return false;
 
+			else if (this.lastToken != null && this.lastToken.Type == TokenType.MULTILINE_COMMENT_START) {
+				if (CurrentToken.Type == TokenType.MULTILINE_COMMENT_END)
+					this.lastToken = null;
+
+				return true;
+			// In case of Inline comment, just skip current line at lexing time
+			} else if (CurrentToken.Type == TokenType.INLINE_COMMENT)
+				return false;
+			// In case of multiline comment /* , iterate until you find */
+			else if (CurrentToken.Type == TokenType.MULTILINE_COMMENT_START) {
+				this.lastToken = CurrentToken;
+				return true;
+			}
+
 			tokens.Push (CurrentToken);
-			int length = CurrentToken.Length;
-			this.CurrentLine = this.CurrentLine.Substring (length);
 
 			// string case
 			if (CurrentToken.Type == TokenType.QUOTE) {
@@ -66,9 +91,10 @@ namespace lang.lexer
 					return false;
 
 				this.tokens.Push (new Token (TokenType.ALPHANUMERIC, value));
-				this.tokens.Push (new Token (TokenType.QUOTE));
+				this.tokens.Push (CurrentToken);
 			}
 
+			this.lastToken = CurrentToken;
 			return true;
 		}
 
