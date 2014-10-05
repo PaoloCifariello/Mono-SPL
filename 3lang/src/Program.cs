@@ -9,13 +9,13 @@ namespace lang
 		public static void Main (string[] args)
 		{
 			string[] tests = {
-				"../../test/sum/sum.3l",
+				"../../test/math/math.3l",
 				"../../test/object/object.3l",
 				"../../test/object/function.3l",
 				"../../test/print/print.3l",
 				"../../test/recursion/factorial.3l",
 				"../../test/recursion/fibonacci.3l",
-				"../../test/require/require.3l",
+				"../../test/require/require.3l"
 			};
 
 			for ( int i = 0; i < tests.Length; i++) {

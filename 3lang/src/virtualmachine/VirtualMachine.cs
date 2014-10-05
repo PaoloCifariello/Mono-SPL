@@ -27,45 +27,49 @@ namespace lang.virtualmachine
 			this.ExecuteStatements (program.Statements);
 		}
 
-		private void ExecuteStatements (Statements statements)
+		private ExpressionValue ExecuteStatements (Statements statements)
 		{
-			this.ExecuteStatements (statements, this.env);
+			return this.ExecuteStatements (statements, this.env);
 		}
 
-		private void ExecuteStatements (Statements statements, Environment env)
+		private ExpressionValue ExecuteStatements (Statements statements, Environment env)
 		{
+			ExpressionValue ret;
+
 			for (int i = 0; i < statements.Length; i++)
-				this.ExecuteStatement (statements.GetStatement (i), env);
+				if ((ret = this.ExecuteStatement (statements.GetStatement (i), env)) != null)
+					return ret;
+
+			return null;
 		}
 
-		private void ExecuteStatement(Statement statement)
+		private ExpressionValue ExecuteStatement(Statement statement)
 		{
-			this.ExecuteStatement (statement, this.env);
+			return this.ExecuteStatement (statement, this.env);
 		}
 
-		private void ExecuteStatement (Statement statement, Environment env)
+		private ExpressionValue ExecuteStatement (Statement statement, Environment env)
 		{
 			switch (statement.Type) {
 			case StatementType.ASSIGN:
 				{
 					this.Assign (statement.Assignment);
-					break;
+					return null;
 				}
 			case StatementType.IF_THEN:
 				{
 					ExpressionValue value = this.evaluator.Evaluate (statement.ConditionExpression, this.env);
 					if (value.Bool == true)
-						this.ExecuteStatements (statement.Statement1);
-					break;		
+						return this.ExecuteStatements (statement.Statement1);
+					return null;
 				}
 			case StatementType.IF_THEN_ELSE:
 				{
 				ExpressionValue value = this.evaluator.Evaluate (statement.ConditionExpression, this.env);
 					if (value.Bool == true)
-						this.ExecuteStatements (statement.Statement1);
+						return this.ExecuteStatements (statement.Statement1);
 					else
-						this.ExecuteStatements (statement.Statement2);
-					break;
+						return this.ExecuteStatements (statement.Statement2);
 				}
 			case StatementType.WHILE:
 				{
@@ -74,21 +78,27 @@ namespace lang.virtualmachine
 						Statements st = new Statements ();
 						st.AddStatement (statement.Statement1);
 						st.AddStatement (statement);
-						this.ExecuteStatements (st);
+						return this.ExecuteStatements (st);
 					}
-					break;
+					
+					return null;
 				}
 			case StatementType.FUNCTION_DECLARATION:
 				{
 					this.DeclareFunction (statement.FunctionDeclaration);
-					break;
+					return null;
 				}
 			case StatementType.FUNCTION:
 				{
-					this.ExecuteFunction (statement.Function);
-					break;
+					return this.ExecuteFunction (statement.Function);
+				}
+			case StatementType.RETURN:
+				{
+					return this.evaluator.Evaluate (statement.ReturnValue, this.Environment);
 				}
 			}
+
+			return null;
 		}
 
 		void DeclareFunction (Function function)
@@ -141,9 +151,7 @@ namespace lang.virtualmachine
 			if (obj != null)
 				this.env.Declcare ("this", last);
 
-			this.ExecuteStatements (f.InnerStatements);
-			ExpressionValue ev = this.evaluator.Evaluate (f.ReturnValue, this.env);
-
+			ExpressionValue ev = this.ExecuteStatements (f.InnerStatements);
 			this.env.PopEnvironment ();
 			return ev;
 		}

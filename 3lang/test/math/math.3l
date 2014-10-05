@@ -1,0 +1,29 @@
+var Math = {};
+
+Math.sum = function(a,b) { 
+	return a + b;
+};
+
+Math.sub = function(a,b) {
+	return a - b;
+};
+
+Math.pow = function(a,n) {
+	var res;
+	
+	if (n < 0) {
+		res = 1/Math.pow(a,-1*n);
+	} else {
+		var res = 1;
+		
+		while (n > 0) {
+			res = res * a;
+			n = n - 1;
+		}
+	}
+	
+	return res;
+};
+
+var b = Math.pow(1, -1);
+print("Result: " + b);

@@ -68,16 +68,18 @@
     <Folder Include="test\" />
     <Folder Include="test\object\" />
     <Folder Include="test\require\" />
+    <Folder Include="test\recursion\" />
+    <Folder Include="test\math\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar" />
-    <None Include="test\sum\sum.3l" />
     <None Include="test\print\print.3l" />
-    <None Include="test\recursion\fibonacci.3l" />
-    <None Include="test\recursion\factorial.3l" />
     <None Include="test\object\object.3l" />
     <None Include="test\object\function.3l" />
     <None Include="test\require\required.3l" />
     <None Include="test\require\require.3l" />
+    <None Include="test\math\math.3l" />
+    <None Include="test\recursion\fibonacci.3l" />
+    <None Include="test\recursion\factorial.3l" />
   </ItemGroup>
 </Project>

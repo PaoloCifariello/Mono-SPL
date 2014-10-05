@@ -128,7 +128,7 @@ namespace lang.parser
 				} else 
 					return new Statement (StatementType.IF_THEN, cnd, st1);
 
-			// while
+				// while
 			} else if (type == TokenType.WHILE) {
 				this.Pop ();
 				Condition cnd = this.ParseCondition ();
@@ -145,6 +145,17 @@ namespace lang.parser
 
 				return new Statement (StatementType.WHILE, cnd, st);
 
+			} else if (type == TokenType.RETURN) {
+				this.Pop ();
+
+				Expression returnValue = this.ParseExpression ();
+
+				if (this.CurrentType != TokenType.SEMI)
+					return null;
+
+				this.Pop ();
+				return new Statement (StatementType.RETURN, returnValue);
+			
 			// var, alphanumeric or alphanumeric ()
 			} else {
 				if (this.NextType != TokenType.L_PAREN) {
@@ -254,7 +265,7 @@ namespace lang.parser
 					return null;
 
 				this.Pop ();
-				// Identifier case
+			// Identifier case
 			} else if (this.CurrentType == TokenType.ALPHANUMERIC) {
 				Token id = this.Pop ();
 				if (this.CurrentType == TokenType.L_PAREN) {
@@ -272,11 +283,34 @@ namespace lang.parser
 				//else
 					exp1 = new Expression (ExpressionType.IDENTIFIER, id);
 				// Integer case
-			} else if (this.CurrentType == TokenType.INTEGER) {
-				exp1 = new Expression (ExpressionType.INTEGER, this.Pop ());
+			} else if ((this.CurrentType == TokenType.INTEGER) || 
+			           	((this.NextType == TokenType.INTEGER) &&
+			 				((this.CurrentType == TokenType.PLUS) ||
+							(this.CurrentType == TokenType.MINUS)))) {
+
+				Token cur = this.Pop ();
+				int sign = 1;
+
+				if (cur.Type == TokenType.PLUS)
+					cur = this.Pop ();
+				else if (cur.Type == TokenType.MINUS) {
+					cur = this.Pop ();
+					sign = -1;
+				}
+
+				ExpressionValue value = new ExpressionValue (
+					ExpressionValueType.NUMBER, 
+					sign * Evaluator.ToInt (cur.Value)
+				);
+
+				exp1 = new Expression (ExpressionType.INTEGER, value);
 				// Boolean case
 			} else if (this.CurrentType == TokenType.TRUE || this.CurrentType == TokenType.FALSE) {
-				exp1 = new Expression (ExpressionType.BOOL, this.Pop ());
+				ExpressionValue value = new ExpressionValue(
+					ExpressionValueType.BOOLEAN, 
+					Evaluator.ToBool(this.Pop ().Value)
+				);
+				exp1 = new Expression (ExpressionType.BOOL, value);
 				// String case
 			} else if (this.CurrentType == TokenType.QUOTE) {
 				this.Pop ();
@@ -289,7 +323,15 @@ namespace lang.parser
 					return null;
 
 				this.Pop ();
-				exp1 = new Expression (ExpressionType.STRING, str);
+
+				ExpressionValue value = new ExpressionValue (
+					ExpressionValueType.STRING,
+					str.Value
+				);
+				exp1 = new Expression (
+					ExpressionType.STRING,
+					value
+				);
 				// Expression combination case
 			} else if (this.CurrentType == TokenType.L_BRACE && this.NextType == TokenType.R_BRACE) {
 				this.Pop (2);
@@ -403,6 +445,8 @@ namespace lang.parser
 				return ExpressionType.MINUS;
 			case (TokenType.TIMES):
 				return ExpressionType.TIMES;
+			case (TokenType.SLASH):
+				return ExpressionType.DIVISION;
 			case (TokenType.AND):
 				return ExpressionType.AND;
 			case (TokenType.OR):

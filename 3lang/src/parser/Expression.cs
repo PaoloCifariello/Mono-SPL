@@ -25,6 +25,8 @@ namespace lang.parser
 		PLUS,
 		MINUS,
 		TIMES,
+		DIVISION,
+
 		AND,
 		OR,
 		DISEQUAL,
@@ -45,6 +47,7 @@ namespace lang.parser
 		private ArrayList<Expression> parameters;
 		private List<string> accessorKey;
 		private Function function;
+		private ExpressionValue evaluatedValue;
 
 		public ExpressionType Type
 		{
@@ -96,9 +99,20 @@ namespace lang.parser
 			}
 		}
 
+		public ExpressionValue EvaluatedValue {
+			get {
+				return this.evaluatedValue;
+			}
+		}
+
 		public Expression (ExpressionType type)
 		{
 			this.type = type;
+		}
+
+		public Expression(ExpressionType type, ExpressionValue value) : this(type)
+		{
+			this.evaluatedValue = value;
 		}
 
 		public Expression (ExpressionType type, Function fun) : this(type)
@@ -127,11 +141,6 @@ namespace lang.parser
 			this.tokens = new Token[1] {
 				token
 			};
-		}
-
-		public Expression (ExpressionType type, Token[] tokens) : this(type)
-		{
-			this.tokens = tokens;
 		}
 
 		public Expression (ExpressionType type, Expression e1, Expression e2) :this(type)

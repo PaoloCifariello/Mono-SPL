@@ -38,9 +38,13 @@ namespace lang.lexer
 		void InitializeSpecialMatchList ()
 		{
 			this.SpecialMatcher = new MatchKey[] {
+				new MatchKey(TokenType.INLINE_COMMENT, "//"),
+				new MatchKey(TokenType.MULTILINE_COMMENT_START, "/*"),
+				new MatchKey(TokenType.MULTILINE_COMMENT_END, "*/"),
 				new MatchKey(TokenType.PLUS, "+"),
 				new MatchKey(TokenType.MINUS, "-"),
 				new MatchKey(TokenType.TIMES, "*"),
+				new MatchKey(TokenType.SLASH, "/"),
 				new MatchKey(TokenType.DOT, "."),
 				new MatchKey(TokenType.COLON, ":"),
 				new MatchKey(TokenType.QUOTE, "\""),
