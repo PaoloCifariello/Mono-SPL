@@ -17,7 +17,7 @@ namespace lang.virtualmachine
 	public class ExpressionValue
 	{
 		private ExpressionValueType type;
-		private int nValue = 0;
+		private float nValue = 0;
 		private bool bValue = false;
 		private string sValue = "";
 		private Function fValue = new Function("", new Statements(), new C5.ArrayList<string>(), null);
@@ -60,7 +60,7 @@ namespace lang.virtualmachine
 			}
 		}
 
-		public int Number {
+		public float Number {
 			get {
 				return this.nValue;
 			}
@@ -92,7 +92,7 @@ namespace lang.virtualmachine
 			this.nValue = (value != "") ? 1 : 0;
 		}
 
-		public ExpressionValue (ExpressionValueType type, int value) : this(type)
+		public ExpressionValue (ExpressionValueType type, float value) : this(type)
 		{
 			this.sValue = value.ToString ();
 			this.bValue = (value != 0) ? true : false;

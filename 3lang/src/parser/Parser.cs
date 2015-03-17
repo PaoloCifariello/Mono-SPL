@@ -283,8 +283,8 @@ namespace lang.parser
 				//else
 					exp1 = new Expression (ExpressionType.IDENTIFIER, id);
 				// Integer case
-			} else if ((this.CurrentType == TokenType.INTEGER) || 
-			           	((this.NextType == TokenType.INTEGER) &&
+			} else if ((this.CurrentType == TokenType.NUMBER) || 
+			           ((this.NextType == TokenType.NUMBER) &&
 			 				((this.CurrentType == TokenType.PLUS) ||
 							(this.CurrentType == TokenType.MINUS)))) {
 
@@ -300,7 +300,7 @@ namespace lang.parser
 
 				ExpressionValue value = new ExpressionValue (
 					ExpressionValueType.NUMBER, 
-					sign * Evaluator.ToInt (cur.Value)
+					sign * Evaluator.ToNumber (cur.Value)
 				);
 
 				exp1 = new Expression (ExpressionType.INTEGER, value);

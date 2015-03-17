@@ -158,9 +158,9 @@ namespace lang.virtualmachine
 			}
 		}
 
-		public static int ToInt (string value)
+		public static float ToNumber (string value)
 		{
-			return int.Parse (value);
+			return float.Parse (value);
 		}
 
 		public static bool ToBool (string value)

@@ -97,12 +97,12 @@ namespace lang.lexer
 
 				if (idx == -1)
 					return new Token (
-						TokenType.INTEGER,
+						TokenType.NUMBER,
 						line.Substring (0)
 						);
 				else
 					return new Token (
-						TokenType.INTEGER,
+						TokenType.NUMBER,
 						line.Substring (0, idx)
 						);
 			}
@@ -147,9 +147,11 @@ namespace lang.lexer
 
 		public static int ParseInteger(string line)
 		{
-			for (int position = 1; position < line.Length; position++) 
-				if (!Matcher.isNumber (line [position]))
-					return position;
+			for (int position = 1; position < line.Length; position++)
+				if (!Matcher.isNumber (line [position])) {
+					if(line[position] != '.')
+						return position;
+				}
 
 			return -1;
 		}

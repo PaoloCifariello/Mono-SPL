@@ -144,7 +144,7 @@ namespace lang.lexer
 
 		OBJECT_ACCESS,
 
-		INTEGER,
+		NUMBER,
 		DOUBLE,
 		ALPHANUMERIC,
 		STRING,
