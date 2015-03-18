@@ -14,7 +14,7 @@ namespace lang.interpreter
 		private VirtualMachine vm;
 		private Program program;
 
-		private Interpreter()
+		public Interpreter()
 		{
 			this.parser = new Parser ();
 			this.vm = new VirtualMachine ();
@@ -26,6 +26,11 @@ namespace lang.interpreter
 		}
 
 		public Interpreter (string scode) : this()
+		{
+			this.lexer = new Lexer (scode);
+		}
+
+		public void GetNextInput(string scode)
 		{
 			this.lexer = new Lexer (scode);
 		}

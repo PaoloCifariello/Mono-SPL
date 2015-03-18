@@ -194,9 +194,15 @@ namespace lang.virtualmachine
 			// Print function
 			if (fun.FunctionName == "print") {
 				ExpressionValue val = this.evaluator.Evaluate (fun.Parameters [0], this.env);
-				if (val.IsInt)
-					Console.WriteLine (val.Number);
-				else if (val.IsBool)
+				if (val.IsNumber) {
+					if (float.IsInfinity (val.Number)) {
+						Console.WriteLine ("Infinity");
+					} else if (float.IsNaN (val.Number)) {
+						Console.WriteLine ("NaN");
+					} else {
+						Console.WriteLine (val.Number);
+					}
+				} else if (val.IsBool)
 					Console.WriteLine (val.Bool);
 				else if (val.IsString)
 					Console.WriteLine (val.String);

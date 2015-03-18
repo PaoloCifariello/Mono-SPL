@@ -18,19 +18,29 @@ namespace lang
 				"../../test/require/require.3l"
 			};
 
-			for ( int i = 0; i < tests.Length; i++) {
-				int ind = tests [i].LastIndexOf ('/');
-				string name = tests [i].Substring (ind + 1);
+//			for ( int i = 0; i < tests.Length; i++) {
+//				int ind = tests [i].LastIndexOf ('/');
+//				string name = tests [i].Substring (ind + 1);
+//
+//				Console.WriteLine ("Executing test: " + name);
+//
+//				Interpreter interp = Interpreter.FromFile (tests[i]);
+//				interp.Init ();
+//				Stopwatch sw = Stopwatch.StartNew();
+//				interp.Run ();
+//				sw.Stop ();
+//
+//				Console.WriteLine ("Test " + name + " executed in " + sw.ElapsedMilliseconds + " ms\n");
+//			}
 
-				Console.WriteLine ("Executing test: " + name);
+			Interpreter interp = new Interpreter ();
+			string nextInput;
 
-				Interpreter interp = Interpreter.FromFile (tests[i]);
+			while (true) {
+				nextInput = Console.ReadLine ();
+				interp.GetNextInput (nextInput);
 				interp.Init ();
-				Stopwatch sw = Stopwatch.StartNew();
 				interp.Run ();
-				sw.Stop ();
-
-				Console.WriteLine ("Test " + name + " executed in " + sw.ElapsedMilliseconds + " ms\n");
 			}
 		}
 	}

@@ -30,7 +30,7 @@ namespace lang.virtualmachine
 			}
 		}
 
-		public bool IsInt {
+		public bool IsNumber {
 			get {
 				return this.type == ExpressionValueType.NUMBER;
 			}
@@ -94,7 +94,14 @@ namespace lang.virtualmachine
 
 		public ExpressionValue (ExpressionValueType type, float value) : this(type)
 		{
-			this.sValue = value.ToString ();
+			if (float.IsInfinity (value)) {
+				this.sValue = "Infinity";
+			} else if (float.IsNaN (value)) {
+				this.sValue = "NaN";
+			} else {
+				this.sValue = value.ToString ();
+			}
+
 			this.bValue = (value != 0) ? true : false;
 			this.nValue = value;
 		}
